@@ -66,6 +66,7 @@ SchemaObj.createSchema = function(mongoose) {
 		// ID로 글 찾기
 		load: function(id, callback) {
 			this.findOne({_id: id})
+				//ObjectId를 실제 객체로 치환 -- writer에 매칭된 객체를 name, provider, email로 치환
 				.populate('writer', 'name provider email')
 				.exec(callback);
 		},

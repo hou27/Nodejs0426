@@ -10,13 +10,13 @@ module.exports = {
         ,{file:'./post_schema', collection:'posts', schemaName:'PostSchema', modelName:'PostModel'}
 	],
 	route_info: [
-        {file:'./post', path:'/process/addpost', method:'addpost', type:'post'}
-        ,{file:'./post', path:'/process/showpost/:id', method:'showpost', type:'get'}
-        ,{file:'./post', path:'/process/listpost', method:'listpost', type:'post'}
-        ,{file:'./post', path:'/process/listpost', method:'listpost', type:'get'}
-        ,{file:'./post', path:'/process/addcomment', method:'addcomment', type:'post'}
-		,{file:'./post', path:'/process/editor', method:'editor', type:'get'}
-		,{file:'./post', path:'/process/detail', method:'detaileditor', type:'get'}
+		// //{file:'./post', path:'/process/addpost', method:'addpost', type:'post'}
+		// {file:'./post', path:'/process/showpost/:id', method:'showpost', type:'get'}
+		// //,{file:'./post', path:'/process/listpost', method:'listpost', type:'post'}
+		// //,{file:'./post', path:'/listpost', method:'listpost', type:'get'}
+		// ,{file:'./post', path:'/process/addcomment', method:'addcomment', type:'post'}
+		// ,{file:'./post', path:'/process/editor', method:'editor', type:'get'}
+		// ,{file:'./post', path:'/process/detail', method:'detaileditor', type:'get'}
 	],
 	facebook: {		// passport facebook
 		clientID: '1442860336022433',

@@ -13,24 +13,38 @@
   <body>
     <%- include ("./nav.ejs") %>
 	  
+	<% if (message.length > 0) { %>
+	  	<div class='container mt-4'>
+			<div class="alert alert-danger"><%= message %></div>
+		</div>
+	<% } %>
 	<div class='container mt-4'>
-		<form>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">당신의 정보는 안전하게 보관됩니다.</div>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">자동 로그인</label>
-  </div>
-  <button type="submit" class="btn btn-primary">login</button>
-</form>
-	  </div>
+		<form action = "/login" method = "POST">
+		  <div class="mb-3">
+			<h1><span class="fa fa-sign-in"></span> 로그인</h1>
+			
+			<br>
+			  
+			<label for="exampleInputEmail1" class="form-label">Username</label>
+			<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+			<div id="emailHelp" class="form-text">당신의 정보는 안전하게 보관됩니다.</div>
+		  </div>
+		  <div class="mb-3">
+			<label for="exampleInputPassword1" class="form-label">Password</label>
+			<input type="password" class="form-control" id="exampleInputPassword1" name="password">
+		  </div>
+		  <div class="mb-3 form-check">
+			<input type="checkbox" class="form-check-input" id="exampleCheck1">
+			<label class="form-check-label" for="exampleCheck1">자동 로그인</label>
+		  </div>
+		  <button type="submit" class="btn btn-primary">login</button>
+		</form>
+		
+		<hr>
+			
+		<p>계정이 없다면? <a href="/signup">회원가입하기</a></p>
+		<button type="button" class="btn btn-light" onclick='location.href="/"'>Home</button>
+	</div>
 	  
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>

@@ -10,24 +10,32 @@
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/write">Wirte</a>
+        <a class="nav-link" href="/addpost">Write</a>
       </li>
 	  <li class="nav-item">
-        <a class="nav-link" href="/mypage">MyPage</a>
+        <a class="nav-link" href="/listpost">List</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Write</a>
-          <a class="dropdown-item" href="#">왜 dropdown 작동이 안되누</a>
+          <a class="dropdown-item" href="#">unset</a>
+          <a class="dropdown-item" href="#">unset</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li>
     </ul>
-	<a class="nav-link" href="/signin">Sign in</a>
-	<a class="nav-link" href="/login">login</a>
+	<% if (login_success) { %>
+	  	<%= user.name %>
+		<a class="nav-link" href="/profile">MyPage</a>
+		<a class="nav-link" href="/logout">logout</a>
+
+	<% } else { %>
+		<a class="nav-link" href="/signup">Sign Up</a>
+		<a class="nav-link" href="/login">login</a>
+	<% } %>
+	
   </div>
 </nav>

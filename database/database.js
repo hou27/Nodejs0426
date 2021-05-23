@@ -14,17 +14,16 @@ var database = {};
 // 초기화를 위해 호출하는 함수
 database.init = function(app, config) {
 	console.log('init() 호출됨.');
-	
 	connect(app, config);
 }
 
 //데이터베이스에 연결하고 응답 객체의 속성으로 db 객체 추가
 function connect(app, config) {
 	console.log('connect() 호출됨.');
-	
 	// 데이터베이스 연결 : config의 설정 사용
     mongoose.Promise = global.Promise;  // mongoose의 Promise 객체는 global의 Promise 객체 사용하도록 함
-	mongoose.connect(config.db_url);
+	//mongodb 최신버전 사용 시 발생하는 오류를 해결하기위해 옵션추가 - 21.05.22
+	mongoose.connect(config.db_url, { useUnifiedTopology: true, useNewUrlParser:true} );
 	database.db = mongoose.connection;
 	
 	database.db.on('error', console.error.bind(console, 'mongoose connection error.'));	
@@ -60,7 +59,7 @@ function createSchema(app, config) {
 		database[curItem.modelName] = curModel;
 		console.log('스키마 이름 [%s], 모델 이름 [%s] 이 database 객체의 속성으로 추가됨.', curItem.schemaName, curItem.modelName);
 	}
-	//여기서 에러발생 05-13 19:20 확인 app이 undefined.
+	//app 객체의 속성으로 추가
 	app.set('database', database);
 	console.log('database 객체가 app 객체의 속성으로 추가됨.');
 }
