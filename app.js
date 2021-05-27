@@ -102,7 +102,10 @@ configPassport(app, passport);
 var userPassport = require('./router/user_passport');
 userPassport(router, passport);
 
+//favicon 요청 무시
+app.get('/favicon.ico', (req, res) => res.status(204));
 
+app.use(router);
 
 //404 에러 페이지
 var errorHandler = expressErrorHandler({
@@ -118,7 +121,7 @@ app.use( errorHandler );
 //-----------서버 시작-----------
 
 //확인되지 않은 예외 처리 - 서버 프로세스 종료하지 않고 유지함
-process.on('uncaughtException', function (err) {
+process.on('uncaughtException', (err) => {
 	console.log('uncaughtException 발생함 : ' + err);
 	console.log('서버 프로세스 종료하지 않고 유지함.');
 	
@@ -126,22 +129,21 @@ process.on('uncaughtException', function (err) {
 });
 
 // 프로세스 종료 시에 데이터베이스 연결 해제
-process.on('SIGTERM', function () {
+process.on('SIGTERM', () => {
     console.log("프로세스가 종료됩니다.");
     app.close();
 });
 
-app.on('close', function () {
+app.on('close', () => {
 	console.log("Express 서버 객체가 종료됩니다.");
 	if (database.db) {
 		database.db.close();
 	}
 });
 
-// 시작된 서버 객체를 리턴받도록 합니다. 
-var server = http.createServer(app).listen(app.get('port'), function(){
+// 시작된 서버 객체를 리턴
+var server = http.createServer(app).listen(app.get('port'), () => {
 	console.log('서버가 시작되었습니다. 포트 : ' + app.get('port'));
 	// 데이터베이스 초기화
 	database.init(app, config);
-   
 });

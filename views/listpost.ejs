@@ -20,9 +20,9 @@
 		<% if(posts.length > 0) { %>
 			<% for (var i = 0; i < posts.length; i++){ %>
 				<li class="list-group-item" id="<%= posts[i]._id %>">
-					<h4> 제목 : <%= posts[i].title %> </h4>
-					<p> 내용 : <%= posts[i].contents %> </p>
-					<button class='delete' data-id='<%= posts[i]._id %>'>삭제</button>
+					<h4 class='view' data-id='<%= posts[i]._id %>' style='cursor: pointer;'> 제목 : <%= posts[i].title %> </h4>
+					<p> 내용 : <%= posts[i].contents %> hits : <%= posts[i].hits %> </p>
+					<button class='delete btn btn-outline-danger btn-sm' data-id='<%= posts[i]._id %>'>삭제</button>
 				</li>
 			<% } %>
 		<% } else { %>
@@ -32,9 +32,10 @@
 		<% } %>
 	</ul>
 	  
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	  
 	<script>
+		//게시물 삭제 버튼 구현
 		$('.delete').click( (e) => {
 			var postNum = e.target.dataset.id;
 			$.ajax({
@@ -49,10 +50,27 @@
 				console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
 			});
 		})
+		
+		//게시물 이동 기능 구현
+		$('.view').click( (e) => {
+			var postNum = e.target.dataset.id;
+			$.ajax({
+				method : 'GET',
+				url : '/process/showpost/'+postNum,
+				//data : { _id : postNum }
+			}).done( (results) => {
+				console.log('call view');
+				// Contents 영역 제거
+				$('body').children().remove();
+            	// Contents 영역 교체
+            	$('body').html(results);
+			}).fail( (xhr, textStatus, errThrown) => {
+				console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+			});
+		})
 	</script>
 	  
-	  
-	  
+
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   </body>
