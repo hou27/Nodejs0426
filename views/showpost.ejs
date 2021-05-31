@@ -23,8 +23,8 @@
 				☰
 			  </button>
 			  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-				<button class="dropdown-item" type="button">edit</button>
-				<button class="dropdown-item" type="button">delete</button>
+				<button class="dropdown-item" type="button" id='edit' data-id='<%= posts._id %>'>edit</button>
+				<button class="dropdown-item" type="button" id='delete' data-id='<%= posts._id %>'>delete</button>
 			  </div>
 			</div>
 		<% } %>
@@ -87,6 +87,42 @@
 	</div>		
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+	<script>
+		
+		$('#edit').click( (e) => {
+			var postNum = e.target.dataset.id;
+			$.ajax({
+				method : 'GET',
+				url : '/process/edit/' + postNum
+			}).done( (results) => {
+				console.log('call view');
+				// Contents 영역 제거
+				$('.container.mt-4.delsec').children().remove();
+				// Contents 영역 교체
+				$('.container.mt-4.delsec').html(results);
+				console.log(results);
+			}).fail( (xhr, textStatus, errThrown) => {
+				console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+			});
+		})
+		
+		$('#delete').click( (e) => {
+			if(confirm('정말 게시물을 삭제하시겠습니까?')) {
+				var postNum = e.target.dataset.id;
+				$.ajax({
+					method : 'DELETE',
+					url : '/process/delete',
+					data : { _id : postNum }
+				}).done( (results) => {
+					location.href = '/listpost';
+				}).fail( (xhr, textStatus, errThrown) => {
+					console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+				});
+			}
+		})
+	</script>
+	  
+	  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   </body>
 </html>

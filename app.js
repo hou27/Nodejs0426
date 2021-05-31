@@ -41,12 +41,13 @@ app.set('view engine', 'ejs');
 
 
 //===== 서버 변수 설정 및 static으로 public 폴더 설정  =====//
-//포트 닉네임 설정
+
 console.log('config.server_port : %d', config.server_port);
+//포트 별칭 설정
 app.set('port', process.env.PORT || 3000);
  
 
-// body-parser를 이용해 application/x-www-form-urlencoded 파싱
+// body-parser를 이용해 application/x-www-form-urlencoded(default) 파싱
 app.use(express.urlencoded({ extended: true }))
 
 // body-parser를 이용해 application/json 파싱
@@ -110,9 +111,20 @@ app.use(router);
 
 //404 에러 페이지
 var errorHandler = expressErrorHandler({
- static: {
-   '404': './public/404.html'
- }
+	static: {
+	'404': './public/404.html',
+	//'500': './public/500.html'
+	}
+});
+
+/* error handling middleware */
+app.use((err, req, res, next) => {
+	const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+	res.status(statusCode);
+	res.json({
+	  message: err.message,
+	  stack: process.env.NODE_ENV === 'production' ? {} : error.stack,
+	});
 });
 
 app.use( expressErrorHandler.httpError(404) );

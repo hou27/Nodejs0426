@@ -6,11 +6,13 @@ Nodejs practice
 
 --05.22 다중 사용자 기능 완성 및 posting 기능 기반 완성 및 mongodb 오류 해결
 
---05.23 showpost 및 listpost 기능 추가, Foundation commit
+--05.23 showpost 및 listpost 기능 추가
+		Foundation commit
 
 //추후 navbar action 추가해야함.
 
---05.25 navbar action 추가 및 showpost rendering 부분 수정 및 오류 해결
+--05.25 navbar action 추가
+		showpost rendering 부분 수정 및 오류 해결
 
 --05.26 미들웨어가 자꾸 2번 or 3번 호출된다 정신나갈거같애정신나갈거같애정신나갈거같애정신나갈거같애 favicon.ico문제 아님 @$%@#%!#%!@^&$
 
@@ -19,9 +21,13 @@ Nodejs practice
 //포스트 상세조회 뷰에 댓글기능 추가해야함. -done
 //포스트 검색기능 추가해야함. -done
 
---05.26 (연등) listpost 게시물 이동 기능 추가, 마우스 이벤트 추가, 댓글 기능 추가, writer -> name으로 변환 진행중
+--05.26 (연등) listpost 게시물 이동 기능 추가
+			  마우스 이벤트 추가
+			  댓글 기능 추가
+			  writer -> name으로 변환 진행중
 
---05.27 writer -> name으로 변환, 작성자에 적용 #동기처리를 해야만 값이 넘어감. --> 완료(async 괜히 설치함.)
+--05.27 writer -> name으로 변환
+		작성자에 적용 #동기처리를 해야만 값이 넘어감. --> 완료(async 괜히 설치함.)
 
 --05.27 (연등) list->show 작업 시 body안에 head 내용 중복되는 문제 발견 -- 해결, 해당 과정 ajax 방식에서 location 이동 방식으로 변경.
 
@@ -34,4 +40,10 @@ Nodejs practice
 
 --05.29 multer 설치 -> local에서 이미지 처리
 
---05.31 검색 input태그에 enter이벤트 추가 / 리스트페이지에서 keypress이벤트 발생 시 검색란 focus 추가 / 검색결과 창에서 내용 or 제목 옵션 유지되도록 추가
+--05.31(연등) 검색 input태그에 enter이벤트 추가
+			 리스트페이지에서 keypress이벤트 발생 시 검색란 focus 추가
+			 검색결과 창에서 내용 or 제목 옵션 유지되도록 추가
+			 /process/addpost의 image 첨부 안했을 경우의 예외처리
+			
+
+//유저 간 채팅 서비스 추가할 예정

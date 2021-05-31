@@ -9,7 +9,7 @@ var crypto = require('crypto');
 
 var Schema = {};
 
-Schema.createSchema = function(mongoose) {
+Schema.createSchema = (mongoose) => {
 	
 	// 스키마 정의
 	var UserSchema = mongoose.Schema({

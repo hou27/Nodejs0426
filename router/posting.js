@@ -217,7 +217,11 @@ module.exports = (app, router, path) => {
 		//console.log(req.file);
 		var paramTitle = req.body.title
 			,paramContents = req.body.contents
-			,paramImageUrl = req.file.path;
+			,paramImageUrl = '';
+			
+		if(req.file)
+			paramImageUrl = req.file.path;
+		
 		var paramWriter = req.user;
 
 		console.log('요청 파라미터 : ' + paramTitle + ', ' + paramContents + ', ' + paramWriter.name);

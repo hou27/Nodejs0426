@@ -39,7 +39,7 @@
 						<h4 class='view' data-id='<%= posts[i]._id %>' style='cursor: pointer;'> 제목 : <%= posts[i].title %> </h4>
 						<div class="float-right">hits : <%= posts[i].hits %></div><br>
 						<p> 내용 : <%= posts[i].contents %></p>
-						<button class='delete btn btn-outline-danger btn-sm' data-id='<%= posts[i]._id %>'>삭제</button>
+						<button class='btn btn-outline-danger btn-sm' id='delete' data-id='<%= posts[i]._id %>'>삭제</button>
 					</li>
 				<% } %>
 			<% } else { %>
@@ -55,7 +55,7 @@
 	  
 	<script>
 		//게시물 삭제 버튼 구현
-		$('.delete').click( (e) => {
+		$('#delete').click( (e) => {
 			var postNum = e.target.dataset.id;
 			$.ajax({
 				method : 'DELETE',
