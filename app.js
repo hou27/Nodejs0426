@@ -67,6 +67,7 @@ app.use(expressSession({
 }));
 
 
+
 /*
  * ===== Passport 사용 설정 =====//
  * Passport는 내부적으로 세션을 사용하므로 반드시 passport와 관련된 세션을 활성화시키는 코드가 필요함.(생활코딩)
@@ -92,7 +93,7 @@ var router = express.Router();
 
 //포스팅 기능 라우팅 설정
 var postRouter = require('./router/posting');
-postRouter(app, router);
+postRouter(app, router, path);
 
 //패스포트 인증방식 설정
 var configPassport = require('./config/passport');

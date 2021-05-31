@@ -1,0 +1,64 @@
+<h4 class="container mt-4"><strong><%= posts._doc.title %></strong></h4>
+<div class="float-right">
+<% if(login_success && posts.writer.name == user.name) { %>
+	<div class="dropdown">
+	  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		☰
+	  </button>
+	  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+		<button class="dropdown-item" type="button">edit</button>
+		<button class="dropdown-item" type="button">delete</button>
+	  </div>
+	</div>
+<% } %>
+writer : <%= posts.writer.name %>
+</div><br>
+<ul class="list-group">
+	<li class="list-group-item">
+	<p> <%= posts._doc.contents %> </p>
+	<br>
+	</li>
+</ul>
+
+<br>
+<% if (login_success) { %>
+	<div class="comments">
+		<h4>댓글<span class="count"><span id="commentCount65_0"></span></span></h4>
+		<div class="comment-list">
+			<% for (var i = 0; i < posts._doc.comments.length; i++) { %>
+				<div class="comment">
+					<div class="sixteen wide column">
+						<div class="ui header">
+							<h4 class="ui left aligned header">
+								<%= posts._doc.comments[i].contents %>
+							</h4>
+							<h6 class="ui right aligned orange header" style="font-size: small;">
+								작성자 : <%= writer[i] %>
+							</h6>
+							<h6 class="ui right aligned orange header" style="font-size: x-small;">
+								작성 시간 : <%= created[i] %>
+							</h6>
+						</div>
+					</div>
+				</div>
+			<% } %>
+		</div>
+		<br>
+		<form action="/process/addcomment" method="POST">
+			<div class="field">
+				<label>댓글 달기</label>
+				<br><input type="text" name="contents" placeholder="enter your comment">
+			</div>
+			<input hidden type="text" name="writer" value="<%= user._id %>">
+			<input hidden type="text" name="id" value="<%= posts._doc._id %>">
+
+			<br><input class="btn btn-outline-success btn-sm" type="submit" value="Enter" name="" />
+		</form>
+	</div>
+
+<% } else { %>
+	<div class="alert alert-warning">댓글 조회 및 작성은 로그인 하신 후 이용할 수 있는 기능입니다.</div>
+<% } %>
+
+
+<br><br><button type="button" class="btn btn-light" onclick='location.href="/listpost"'>Back</button>

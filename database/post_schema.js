@@ -21,6 +21,7 @@ SchemaObj.createSchema = function(mongoose) {
 	    	writer: {type: String, trim:true, 'default': ''},
 	    	created_at: {type: Date, 'default': Date.now}
 	    }],
+		imageUrl: {type: String, 'default':''},
 	    tags: {type: [], 'default': ''},
         hits: {type: Number, 'default': 0},   // 조회수
 	    created_at: {type: Date, index: {unique: false}, 'default': Date.now},

@@ -12,10 +12,24 @@
   </head>
   <body>
     <%- include ("./nav.ejs") %>
-	  
+
+
 	<div class="container">
 		<h4 class="container mt-4"><strong><%= posts._doc.title %></strong></h4>
-
+		<div class="float-right">
+		<% if(login_success && posts.writer.name == user.name) { %>
+			<div class="dropdown">
+			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				☰
+			  </button>
+			  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+				<button class="dropdown-item" type="button">edit</button>
+				<button class="dropdown-item" type="button">delete</button>
+			  </div>
+			</div>
+		<% } %>
+		writer : <%= posts.writer.name %>
+		</div><br>
 		<ul class="list-group">
 			<li class="list-group-item">
 			<p> <%= posts._doc.contents %> </p>
@@ -24,43 +38,55 @@
 		</ul>
 	
 		<br>
-		<div class="comments">
-			<h4>댓글<span class="count"><span id="commentCount65_0"></span></span></h4>
-			<div class="comment-list">
-				<% for (var i = 0; i < posts._doc.comments.length; i++) { %>
-					<div class="comment">
-						<div class="sixteen wide column">
-							<div class="ui header">
-								<h4 class="ui left aligned header">
-									<%= posts._doc.comments[i].contents %>
-								</h4>
-								<h6 class="ui right aligned orange header" style="font-size: small;">
-									작성자 : <%= writer[i] %>
-								</h6>
-								<h6 class="ui right aligned orange header" style="font-size: x-small;">
-									작성 시간 : <%= created[i] %>
-								</h6>
+		<% if(posts._doc.imageUrl !== '') { %>
+			<div class="text-center">
+				<img src="/<%=posts._doc.imageUrl %>" class="rounded" alt="이미지를 불러오지 못했습니다.">
+			</div>
+		<% } %>
+		<% if (login_success) { %>
+			<div class="comments">
+				<h4>댓글<span class="count"><span id="commentCount65_0"></span></span></h4>
+				<div class="comment-list">
+					<% for (var i = 0; i < posts._doc.comments.length; i++) { %>
+						<div class="comment">
+							<div class="sixteen wide column">
+								<div class="ui header">
+									<h4 class="ui left aligned header">
+										<%= posts._doc.comments[i].contents %>
+									</h4>
+									<h6 class="ui right aligned orange header" style="font-size: small;">
+										작성자 : <%= writer[i] %>
+									</h6>
+									<h6 class="ui right aligned orange header" style="font-size: x-small;">
+										작성 시간 : <%= created[i] %>
+									</h6>
+								</div>
 							</div>
 						</div>
-					</div>
-				<% } %>
-			</div>
-			<br>
-			<form action="/process/addcomment" method="POST">
-				<div class="field">
-					<label>댓글 달기</label>
-					<br><input type="text" name="contents" placeholder="enter your comment">
+					<% } %>
 				</div>
-				<input hidden type="text" name="writer" value="<%= user._id %>">
-				<input hidden type="text" name="id" value="<%= posts._doc._id %>">
-				
-				<br><input class="btn btn-outline-success btn-sm" type="submit" value="Enter" name="" />
-			</form>
-		</div>
+				<br>
+				<form action="/process/addcomment" method="POST">
+					<div class="field">
+						<label>댓글 달기</label>
+						<br><input type="text" name="contents" placeholder="enter your comment">
+					</div>
+					<input hidden type="text" name="writer" value="<%= user._id %>">
+					<input hidden type="text" name="id" value="<%= posts._doc._id %>">
+
+					<br><input class="btn btn-outline-success btn-sm" type="submit" value="Enter" name="" />
+				</form>
+			</div>
+
+		<% } else { %>
+			<div class="alert alert-warning">댓글 조회 및 작성은 로그인 하신 후 이용할 수 있는 기능입니다.</div>
+		<% } %>
+		
 		
 		 <br><br><button type="button" class="btn btn-light" onclick='location.href="/listpost"'>Back</button>
 	</div>		
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   </body>
 </html>

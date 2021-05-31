@@ -13,24 +13,43 @@
   <body>
     <%- include ("./nav.ejs") %>
 	  
-	 
-	<h4 class="container mt-4"><strong>글 리스트</strong></h4>
+	<div class="container mt-4 delsec">
+		<h4 class="container mt-4"><strong>글 리스트</strong></h4>
 
-	<ul class="list-group container mt-4">
-		<% if(posts.length > 0) { %>
-			<% for (var i = 0; i < posts.length; i++){ %>
-				<li class="list-group-item" id="<%= posts[i]._id %>">
-					<h4 class='view' data-id='<%= posts[i]._id %>' style='cursor: pointer;'> 제목 : <%= posts[i].title %> </h4>
-					<p> 내용 : <%= posts[i].contents %> hits : <%= posts[i].hits %> </p>
-					<button class='delete btn btn-outline-danger btn-sm' data-id='<%= posts[i]._id %>'>삭제</button>
-				</li>
-			<% } %>
-		<% } else { %>
-			<div class='container mt-4'>
-				<div class="alert alert-primary" role="alert">현재 등록된 글이 없습니다.</div>
+		<div class='container input-group mb-2'>
+			<div class="setops">
+				<% if(option) { %>
+					<button class="btn btn-light" type="button" id="opsearch"><%=option %></button>
+				<% } else { %>
+					<button class="btn btn-light" type="button" id="opsearch">제목</button>
+				<% } %>
+			  
 			</div>
-		<% } %>
-	</ul>
+			<% if(searchval) { %>
+				<input class='form-control' id='search-input' value='<%=searchval %>' onKeyPress='event.keyCode == 13 && search();'>
+			<% } else { %>
+				<input class='form-control' id='search-input' placeholder='검색어를 입력해주세요' onKeyPress='event.keyCode == 13 && search();'>
+			<% } %>
+			<button class='ml-2 input-group-append btn btn-secondary' id='search' onclick='search();'>검색</button>
+		</div>
+		<ul class="list-group container mt-4">
+			<% if(posts.length > 0) { %>
+				<% for (var i = 0; i < posts.length; i++){ %>
+					<li class="list-group-item" id="<%= posts[i]._id %>">
+						<h4 class='view' data-id='<%= posts[i]._id %>' style='cursor: pointer;'> 제목 : <%= posts[i].title %> </h4>
+						<div class="float-right">hits : <%= posts[i].hits %></div><br>
+						<p> 내용 : <%= posts[i].contents %></p>
+						<button class='delete btn btn-outline-danger btn-sm' data-id='<%= posts[i]._id %>'>삭제</button>
+					</li>
+				<% } %>
+			<% } else { %>
+				<div class='container mt-4'>
+					<div class="alert alert-primary" role="alert">현재 등록된 글이 없습니다.</div>
+				</div>
+			<% } %>
+		</ul>
+	</div>
+	
 	  
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	  
@@ -51,23 +70,52 @@
 			});
 		})
 		
-		//게시물 이동 기능 구현
-		$('.view').click( (e) => {
+		$('.view').click((e) => {
 			var postNum = e.target.dataset.id;
-			$.ajax({
-				method : 'GET',
-				url : '/process/showpost/'+postNum,
-				//data : { _id : postNum }
-			}).done( (results) => {
-				console.log('call view');
-				// Contents 영역 제거
-				$('body').children().remove();
-            	// Contents 영역 교체
-            	$('body').html(results);
-			}).fail( (xhr, textStatus, errThrown) => {
-				console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
-			});
+			console.log("move location");
+			location.href = '/process/showpost/' + postNum;
+		});
+		
+		//게시물 이동 기능 구현
+		// $('.view').click( (e) => {
+		// 	var postNum = e.target.dataset.id;
+		// 	$.ajax({
+		// 		method : 'GET',
+		// 		url : '/process/showpostForAjax/'+postNum,
+		// 		//data : { _id : postNum }
+		// 	}).done( (results) => {
+		// 		console.log('call view');
+		// 		// Contents 영역 제거
+		// 		$('.container.mt-4.delsec').children().remove();
+		// // Contents 영역 교체
+		// $('.container.mt-4.delsec').html(results);
+		// 		console.log(results);
+		// 	}).fail( (xhr, textStatus, errThrown) => {
+		// 		console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+		// 	});
+		// })
+		
+		//검색 옵션 보이기
+		$('#opsearch').click( () => {
+			if($('#opsearch')[0].innerText == '제목') {
+				$('#opsearch')[0].innerText = '내용';
+			}
+			else {
+				$('#opsearch')[0].innerText = '제목';
+			}
 		})
+		
+		function search() {
+			if($('#search-input').val() != '') {
+				var search_input = $('#search-input').val();
+				location.href = '/process/search?value=' + search_input + '&ops=' + $('#opsearch')[0].innerText;
+			}
+		}
+		
+		window.addEventListener(
+			'keypress', () => {
+				$('#search-input').focus();
+			})
 	</script>
 	  
 
