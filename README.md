@@ -4,32 +4,32 @@ Nodejs practice
 기본 crud부터 시작하여 결제기능 등 ***추후 프로젝트를 위한 기반 기술들을 구현해볼 프로젝트
 
 
---05.22 다중 사용자 기능 완성 및 posting 기능 기반 완성 및 mongodb 오류 해결
+--05.22 ◆ 다중 사용자 기능 완성 및 posting 기능 기반 완성 및 mongodb 오류 해결
 
---05.23 showpost 및 listpost 기능 추가
-		Foundation commit
+--05.23 ◆ showpost 및 listpost 기능 추가
+		◆ Foundation commit
 
 //추후 navbar action 추가해야함.
 
---05.25 navbar action 추가
-		showpost rendering 부분 수정 및 오류 해결
+--05.25 ◆ navbar action 추가
+		◆ showpost rendering 부분 수정 및 오류 해결
 
---05.26 미들웨어가 자꾸 2번 or 3번 호출된다 정신나갈거같애정신나갈거같애정신나갈거같애정신나갈거같애 favicon.ico문제 아님 @$%@#%!#%!@^&$
+--05.26 ※ 미들웨어가 자꾸 2번 or 3번 호출된다 정신나갈거같애정신나갈거같애정신나갈거같애정신나갈거같애 favicon.ico문제 아님 @$%@#%!#%!@^&$
 
 //미들웨어 중복 호출 문제 해결해야 함. #조회수가 n배로 찍혀 상당히 곤란함;
 //포스트에 조회수 표시해야 함. -done
 //포스트 상세조회 뷰에 댓글기능 추가해야함. -done
 //포스트 검색기능 추가해야함. -done
 
---05.26 (연등) listpost 게시물 이동 기능 추가
-			  마우스 이벤트 추가
-			  댓글 기능 추가
-			  writer -> name으로 변환 진행중
+--05.26 (연등) ◆ listpost 게시물 이동 기능 추가
+			  ◆ 마우스 이벤트 추가
+			  ◆ 댓글 기능 추가
+			  ◆ writer -> name으로 변환 진행중
 
---05.27 writer -> name으로 변환
-		작성자에 적용 #동기처리를 해야만 값이 넘어감. --> 완료(async 괜히 설치함.)
+--05.27 ◆ writer -> name으로 변환
+		◆ 작성자에 적용 #동기처리를 해야만 값이 넘어감. --> 완료(async 괜히 설치함.)
 
---05.27 (연등) list->show 작업 시 body안에 head 내용 중복되는 문제 발견 -- 해결, 해당 과정 ajax 방식에서 location 이동 방식으로 변경.
+--05.27 (연등) ◆ list->show 작업 시 body안에 head 내용 중복되는 문제 발견 -- 해결, 해당 과정 ajax 방식에서 location 이동 방식으로 변경.
 
 //글 수정 및 댓글 수정 기능 추가해야함.
 //이미지 업로드 기능 추가해야함.
@@ -38,12 +38,12 @@ Nodejs practice
 
 //검색기능에 작성자로도 검색할 수 있도록 기능 추가해야함. -> 제목, 내용 변경하는 버튼 드롭다운으로 대체할까 고려 중.
 
---05.29 multer 설치 -> local에서 이미지 처리
+--05.29 ◆ multer 설치 -> local에서 이미지 처리
 
---05.31(연등) 검색 input태그에 enter이벤트 추가
-			 리스트페이지에서 keypress이벤트 발생 시 검색란 focus 추가
-			 검색결과 창에서 내용 or 제목 옵션 유지되도록 추가
-			 /process/addpost의 image 첨부 안했을 경우의 예외처리
+--05.31(연등) ◆ 검색 input태그에 enter이벤트 추가
+			 ◆ 리스트페이지에서 keypress이벤트 발생 시 검색란 focus 추가
+			 ◆ 검색결과 창에서 내용 or 제목 옵션 유지되도록 추가
+			 ◆ /process/addpost의 image 첨부 안했을 경우의 예외처리
 			
 
 //유저 간 채팅 서비스 추가할 예정
