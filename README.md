@@ -52,4 +52,4 @@ Nodejs practice
 
 --06.01(연등) ◆ 게시글 수정기능 추가
 			 ◆ 라우터에 multer err 핸들링 추가
-			 ◆ 라우터에 multer fileFilter extname lowercase 추가
+			 ◆ 라우터에 multer fileFilter 예외처리
