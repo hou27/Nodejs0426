@@ -39,7 +39,9 @@
 						<h4 class='view' data-id='<%= posts[i]._id %>' style='cursor: pointer;'> 제목 : <%= posts[i].title %> </h4>
 						<div class="float-right">hits : <%= posts[i].hits %></div><br>
 						<p> 내용 : <%= posts[i].contents %></p>
+						<% if (login_success && user._id == posts[i].writer) { %>
 						<button class='btn btn-outline-danger btn-sm delete' data-id='<%= posts[i]._id %>'>삭제</button>
+						<% } %>
 					</li>
 				<% } %>
 			<% } else { %>
@@ -116,6 +118,10 @@
 			'keypress', () => {
 				$('#search-input').focus();
 			})
+		
+		window.onload = () => {
+			$('#search-input').focus();
+		}
 	</script>
 	  
 

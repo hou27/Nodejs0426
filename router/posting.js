@@ -277,16 +277,14 @@ module.exports = (app, router, path) => {
 
 					post.savePost( (err, result) => {
 						if (err) {
-							if (err) {
-								console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+							console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
 
-								res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-								res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
-								res.write('<p>' + err.stack + '</p>');
-								res.end();
+							res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+							res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
+							res.write('<p>' + err.stack + '</p>');
+							res.end();
 
-								return;
-							}
+							return;
 						}
 
 						console.log("글 데이터 추가함.");
@@ -320,12 +318,23 @@ module.exports = (app, router, path) => {
 				posts:results,
 				arritem: navactive(req.path),
 				searchval: false,
-				option: false
+				option: false,
+				user: req.user
 			};
 			
-        	if(err) {
-				return res.status(500).send({error: 'database failure'});
+			if (err) {
+				console.log('in listpost');
+				console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
+				res.write('<p>' + err.stack + '</p>');
+				res.end();
+
+				return;
 			}
+			// if(err) {
+			// 	return res.status(500).send({error: 'database failure'});
+			// }
 			else if (!req.user) {
 				console.log('사용자 인증 안된 상태임.');
 				res.render('listpost.ejs', context);
