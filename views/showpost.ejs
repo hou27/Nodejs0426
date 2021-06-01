@@ -14,8 +14,8 @@
     <%- include ("./nav.ejs") %>
 
 
-	<div class="container">
-		<h4 class="container mt-4"><strong><%= posts._doc.title %></strong></h4>
+	<div class="container" id='showpostid'>
+		<h4 class="container mt-4"><strong id='title'><%= posts._doc.title %></strong></h4>
 		<div class="float-right">
 		<% if(login_success && posts.writer.name == user.name) { %>
 			<div class="dropdown">
@@ -32,7 +32,7 @@
 		</div><br>
 		<ul class="list-group">
 			<li class="list-group-item">
-			<p> <%= posts._doc.contents %> </p>
+			<p id='contents'> <%= posts._doc.contents %> </p>
 			<br>
 			</li>
 		</ul>
@@ -40,7 +40,7 @@
 		<br>
 		<% if(posts._doc.imageUrl !== '') { %>
 			<div class="text-center">
-				<img src="/<%=posts._doc.imageUrl %>" class="rounded" alt="이미지를 불러오지 못했습니다.">
+				<img src="/<%=posts._doc.imageUrl %>" class="rounded" alt="이미지를 불러오지 못했습니다." id='imageUrl'>
 			</div>
 		<% } %>
 		<% if (login_success) { %>
@@ -91,15 +91,25 @@
 		
 		$('#edit').click( (e) => {
 			var postNum = e.target.dataset.id;
+			var imageUrl = '';
+			if($('#imageUrl').src !== undefined) {
+				imageUrl = $('#imageUrl').src;
+				console.log(imageUrl);
+			}
+			
 			$.ajax({
-				method : 'GET',
-				url : '/process/edit/' + postNum
+				method : 'POST',
+				url : '/edit/' + postNum,
+				data : { title: $('#title')[0].innerText
+						, contents: $('#contents')[0].innerText
+						, imageUrl: imageUrl
+					   }
 			}).done( (results) => {
 				console.log('call view');
 				// Contents 영역 제거
-				$('.container.mt-4.delsec').children().remove();
+				$('#showpostid').children().remove();
 				// Contents 영역 교체
-				$('.container.mt-4.delsec').html(results);
+				$('#showpostid').html(results);
 				console.log(results);
 			}).fail( (xhr, textStatus, errThrown) => {
 				console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);

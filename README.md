@@ -44,6 +44,12 @@ Nodejs practice
 			 ◆ 리스트페이지에서 keypress이벤트 발생 시 검색란 focus 추가
 			 ◆ 검색결과 창에서 내용 or 제목 옵션 유지되도록 추가
 			 ◆ /process/addpost의 image 첨부 안했을 경우의 예외처리
+			 ◆ post 상세페이지를 작성자 본인이 들어갔을 경우 삭제 기능 추가
 			
 
 //유저 간 채팅 서비스 추가할 예정
+//post 상세페이지를 작성자 본인이 들어갔을 경우 수정 기능 추가 중..
+
+--06.01(연등) ◆ 게시글 수정기능 추가
+			 ◆ 라우터에 multer err 핸들링 추가
+			 ◆ 라우터에 multer fileFilter extname lowercase 추가

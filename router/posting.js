@@ -44,18 +44,17 @@ module.exports = (app, router, path) => {
 		storage: storage,
 		fileFilter: (req, file, cb) => {
 			var ext = path.extname(file.originalname);
-
+			ext = ext.toLowerCase();
+			console.log(ext);
 			if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-				return cb(new Error())
+				return cb(new Error('Something wrong on the extname.'));
 			}
 			cb(null, true);
 		},
 		limits:{
 			fileSize: 1024 * 1024
 		}
-	});
-	
-	
+	}).single('image');
 	
 	
 	var showpostfunc = (req, res) => {
@@ -212,84 +211,100 @@ module.exports = (app, router, path) => {
 	});
 	
 	//image upload를 위해 multer를 middleware로 동작
-	router.post('/process/addpost', upload.single('image'), (req, res) => {
+	router.post('/process/addpost', (req, res) => {
 		console.log('/process/addpost 요청됨.');
-		//console.log(req.file);
-		var paramTitle = req.body.title
-			,paramContents = req.body.contents
-			,paramImageUrl = '';
-			
-		if(req.file)
-			paramImageUrl = req.file.path;
 		
-		var paramWriter = req.user;
+		//multer errhandling
+		upload(req, res, (err) => {
+			if (err) {
+				console.error('in multer err : ', err.stack);
 
-		console.log('요청 파라미터 : ' + paramTitle + ', ' + paramContents + ', ' + paramWriter.name);
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>POST 생성 중 에러 발생</h2>');
+				res.write('<p>' + err.stack + '</p>');
+				res.end();
 
-		var database = req.app.get('database');
+				return;
+			}
+			console.log(req.body);
+			var paramTitle = req.body.title
+				,paramContents = req.body.contents
+				,paramImageUrl = '';
 
-		// 데이터베이스 객체가 초기화된 경우
-		if (database.db) {
+			if(req.file)
+				paramImageUrl = req.file.path;
 
-			// 1. 아이디를 이용해 사용자 검색
-			database.UserModel.findByEmail(paramWriter.email, (err, results) => {
-				console.log(results);
-				if (err) {
-					console.error('게시판 글 추가 중 에러 발생 : ' + err.stack);
+			var paramWriter = req.user;
 
-					res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-					res.write('<h2>게시판 글 추가 중 에러 발생</h2>');
-					res.write('<p>' + err.stack + '</p>');
-					res.end();
+			console.log('요청 파라미터 : ' + paramTitle + ', ' + paramContents + ', ' + paramWriter.name);
 
-					return;
-				}
+			var database = req.app.get('database');
 
-				if (results == undefined || results.length < 1) {
-					res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-					res.write('<h2>사용자 [' + paramWriter.name + ']를 찾을 수 없습니다.</h2>');
-					res.end();
+			// 데이터베이스 객체가 초기화된 경우
+			if (database.db) {
 
-					return;
-				}
-				console.log('사용자 ObjectId : ' + paramWriter.name +' -> ' + paramWriter._id);
-
-				// save()로 저장
-				// PostModel 인스턴스 생성
-				var post = new database.PostModel({
-					title: paramTitle,
-					contents: paramContents,
-					imageUrl: paramImageUrl,
-					writer: paramWriter._id
-				});
-
-				post.savePost( (err, result) => {
+				// 1. 아이디를 이용해 사용자 검색
+				database.UserModel.findByEmail(paramWriter.email, (err, results) => {
+					console.log(results);
 					if (err) {
-						if (err) {
-							console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+						console.error('게시판 글 추가 중 에러 발생 : ' + err.stack);
 
-							res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-							res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
-							res.write('<p>' + err.stack + '</p>');
-							res.end();
+						res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+						res.write('<h2>게시판 글 추가 중 에러 발생</h2>');
+						res.write('<p>' + err.stack + '</p>');
+						res.end();
 
-							return;
-						}
+						return;
 					}
 
-					console.log("글 데이터 추가함.");
-					console.log('글 작성', '포스팅 글을 생성했습니다. : ' + post._id);
+					if (results == undefined || results.length < 1) {
+						res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+						res.write('<h2>사용자 [' + paramWriter.name + ']를 찾을 수 없습니다.</h2>');
+						res.end();
 
-					return res.redirect('/process/showpost/' + post._id); 
+						return;
+					}
+					console.log('사용자 ObjectId : ' + paramWriter.name +' -> ' + paramWriter._id);
+
+					// save()로 저장
+					// PostModel 인스턴스 생성
+					var post = new database.PostModel({
+						title: paramTitle,
+						contents: paramContents,
+						imageUrl: paramImageUrl,
+						writer: paramWriter._id
+					});
+
+					post.savePost( (err, result) => {
+						if (err) {
+							if (err) {
+								console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+
+								res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+								res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
+								res.write('<p>' + err.stack + '</p>');
+								res.end();
+
+								return;
+							}
+						}
+
+						console.log("글 데이터 추가함.");
+						console.log('글 작성', '포스팅 글을 생성했습니다. : ' + post._id);
+
+						return res.redirect('/process/showpost/' + post._id); 
+					});
+
 				});
 
-			});
-
-		} else {
-			res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-			res.write('<h2>데이터베이스 연결 실패</h2>');
-			res.end();
-		}
+			} else {
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>데이터베이스 연결 실패</h2>');
+				res.end();
+			}
+		});
+		
+		
 	});
 	
 	router.get('/listpost', (req, res) => {
@@ -452,15 +467,90 @@ module.exports = (app, router, path) => {
 		
 	});
 	
+	router.post('/edit/:id', (req, res) => {
+		console.log("/edit 요청됨.");
+		
+		var postId = req.body.id || req.query.id || req.params.id
+			, title = req.body.title
+			, contents = req.body.contents
+			, imageUrl = req.body.imageUrl;
+		
+		console.log("선택한 게시글에 대한 정보 : " + postId + ', ' + title + ', ' + contents + ', ' + imageUrl);
+		var context = {
+			login_success:true,
+			user: req.user,
+			message: req.flash(),
+			arritem: navactive(req.path),
+			title: title,
+			contents: contents,
+			imageUrl: imageUrl,
+			postId: postId
+		};
+		
+		if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.render('editpost.ejs', {login_success:false, message: req.flash('loginRequired'), arritem: navactive(req.path)});
+        } else {
+            console.log('사용자 인증된 상태임.');
+            res.render('editpost.ejs', context);
+        }
+	});
+	
+	router.post('/process/edit/', (req, res) => {
+		console.log("/process/edit 요청됨.");
+		upload(req, res, (err) => {
+			if (err) {
+				console.error('in multer err : ', err.stack);
+
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>POST 생성 중 에러 발생</h2>');
+				res.write('<p>' + err.stack + '</p>');
+				res.end();
+
+				return;
+			}
+			console.log("선택한 게시글에 대한 id 정보 : ", req.body);
+			var postId = req.body.id
+				, title = req.body.title
+				, contents = req.body.contents
+				, imageUrl = '';
+
+			if(req.file)
+				imageUrl = req.file.path;
+
+			console.log('요청 파라미터 : ' + postId + ', ' + title + ', ' + contents + ', ' + imageUrl);
+
+			var database = req.app.get('database');
+
+			if (database.db) {
+				database.PostModel.findOneAndUpdate({_id : postId},
+					{$set:{title: title, contents: contents, imageUrl: imageUrl, updated_at: new Date()}}, (err, results) => {
+					if (err) {
+						console.error('수정 중 에러 발생 : ' + err.stack);
+						res.status(500);
+						throw err;
+					}
+
+					if (results) {
+						console.log('수정... 후 reload', results);
+						res.status(200);
+						res.redirect('/process/showpost/' + postId);
+					}
+				})
+			}
+		});
+		
+	});
+	
 	router.delete('/process/delete', (req, res) => {
-		console.log("/process/delete 요청 패스됨.");
+		console.log("/process/delete 요청됨.");
 		console.log("선택한 게시글에 대한 id 정보 : ", req.body._id);
-		var userid = req.body._id;
+		var postid = req.body._id;
 		
 		var database = req.app.get('database');
 		
 		if (database.db) {
-			database.PostModel.deleteOne({ _id : userid }, (err, results) => {
+			database.PostModel.deleteOne({ _id : postid }, (err, results) => {
 				// 에러 발생 시, 클라이언트로 에러 전송
 				if (err) {
 					console.error('삭제 중 에러 발생 : ' + err.stack);

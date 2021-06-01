@@ -1,0 +1,31 @@
+<h4 class="container mt-4"><strong>글 수정페이지</strong></h4>
+<% if (message.length > 0) { %>
+	<div class='container mt-4'>
+		<div class="alert alert-danger"><%= message %></div>
+	</div>
+<% } else { %>
+<div class='container mt-4'>
+	<form action='/process/edit' method='POST' enctype='multipart/form-data'>
+		<div class='form-group'>
+			<label>제목</label>
+			<input type='text' class='form-control' name='title' value='<%=title %>'>
+		</div>
+		<div class='form-group'>
+			<label>내용</label>
+			<input type='text' class='form-control' name='contents' value='<%=contents %>'>
+		</div>
+		<div class='form-group'>
+			<label>이미지 첨부</label>
+			<% if(imageUrl !== '') { %>
+				<div class="text-center">
+					<img src="/<%=imageUrl %>" class="rounded" alt="이미지를 불러오지 못했습니다." id='imageUrl'>
+				</div>
+			<% } %>
+			
+			<input type='file' class='form-control' name='image'>
+		</div>
+		<input type='hidden' name='id' value='<%=postId %>'>
+		<button type='submit' class="btn btn-secondary">수정</button>
+	</form>
+</div>
+<% } %>
