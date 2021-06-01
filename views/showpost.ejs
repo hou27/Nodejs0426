@@ -92,8 +92,8 @@
 		$('#edit').click( (e) => {
 			var postNum = e.target.dataset.id;
 			var imageUrl = '';
-			if($('#imageUrl').src !== undefined) {
-				imageUrl = $('#imageUrl').src;
+			if(document.querySelector("#imageUrl")) {
+				imageUrl = document.querySelector("#imageUrl").src;
 				console.log(imageUrl);
 			}
 			

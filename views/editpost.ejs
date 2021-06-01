@@ -15,13 +15,15 @@
 			<input type='text' class='form-control' name='contents' value='<%=contents %>'>
 		</div>
 		<div class='form-group'>
-			<label>이미지 첨부</label>
-			<% if(imageUrl !== '') { %>
-				<div class="text-center">
-					<img src="/<%=imageUrl %>" class="rounded" alt="이미지를 불러오지 못했습니다." id='imageUrl'>
-				</div>
-			<% } %>
 			
+			<% if(imageUrl !== '') { %>
+				<label>이미지 교체</label>
+				<div class="text-center">
+					<img src="<%=imageUrl %>" class="rounded" alt="이미지를 불러오지 못했습니다." id='imageUrl'>
+				</div>
+			<% } else { %>
+				<label>이미지 첨부</label>
+			<% } %>
 			<input type='file' class='form-control' name='image'>
 		</div>
 		<input type='hidden' name='id' value='<%=postId %>'>
