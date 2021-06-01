@@ -9,7 +9,7 @@ Nodejs practice
 --05.23 ◆ showpost 및 listpost 기능 추가
 		◆ Foundation commit
 
-//추후 navbar action 추가해야함.
+//추후 navbar action 추가해야함. --done
 
 --05.25 ◆ navbar action 추가
 		◆ showpost rendering 부분 수정 및 오류 해결
@@ -21,7 +21,7 @@ Nodejs practice
 //포스트 상세조회 뷰에 댓글기능 추가해야함. -done
 //포스트 검색기능 추가해야함. -done
 
---05.26 (연등) ◆ listpost 게시물 이동 기능 추가
+--05.26 (연등) ◆ listpost 게시물페이지로 이동 기능 추가
 			  ◆ 마우스 이벤트 추가
 			  ◆ 댓글 기능 추가
 			  ◆ writer -> name으로 변환 진행중
@@ -31,8 +31,8 @@ Nodejs practice
 
 --05.27 (연등) ◆ list->show 작업 시 body안에 head 내용 중복되는 문제 발견 -- 해결, 해당 과정 ajax 방식에서 location 이동 방식으로 변경.
 
-//글 수정 및 댓글 수정 기능 추가해야함.
-//이미지 업로드 기능 추가해야함.
+//글 수정 및 댓글 수정 기능 추가해야함. --글 수정은 done
+//이미지 업로드 기능 추가해야함. --done
 
 --05.28 포스트 검색 기능 추가함.
 
@@ -48,7 +48,7 @@ Nodejs practice
 			
 
 //유저 간 채팅 서비스 추가할 예정
-//post 상세페이지를 작성자 본인이 들어갔을 경우 수정 기능 추가 중..
+//post 상세페이지를 작성자 본인이 들어갔을 경우 수정 기능 추가 중.. --done
 
 --06.01(연등) ◆ 게시글 수정기능 추가
 			 ◆ 라우터에 multer err 핸들링 추가
