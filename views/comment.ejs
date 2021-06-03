@@ -1,0 +1,37 @@
+<% if (login_success) { %>
+		<div class="comments">
+			<h4>댓글<span class="count"><span id="commentCount65_0"></span></span></h4>
+			<div class="comment-list">
+				<% for (var i = 0; i < posts._doc.comments.length; i++) { %>
+					<div class="comment">
+						<div class="sixteen wide column">
+							<div class="ui header">
+								<h4 class="ui left aligned header">
+									<%= posts._doc.comments[i].contents %>
+								</h4>
+								<h6 class="ui right aligned orange header" style="font-size: small;">
+									작성자 : <%= writer[i] %>
+								</h6>
+								<h6 class="ui right aligned orange header" style="font-size: x-small;">
+									작성 시간 : <%= created[i] %>
+								</h6>
+							</div>
+						</div>
+					</div>
+				<% } %>
+			</div>
+			<br>
+			<form id='addcomment'>
+				<div class="field">
+					<label>댓글 달기</label>
+					<br><input type="text" id='comment' name="contents" placeholder="enter your comment" onKeyPress='event.keyCode == 13 && addComment();'>
+				</div>
+				<input hidden type="text" name="writer" value="<%= user._id %>">
+				<input hidden type="text" name="id" value="<%= posts._doc._id %>">
+				<br><input class="btn btn-outline-success btn-sm" id='addbtn' type="submit" value="Enter" name="" onclick='addComment();' disabled/>
+			</form>
+		</div>
+
+	<% } else { %>
+		<div class="alert alert-warning">댓글 조회 및 작성은 로그인 하신 후 이용할 수 있는 기능입니다.</div>
+	<% } %>

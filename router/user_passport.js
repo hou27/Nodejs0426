@@ -10,6 +10,7 @@ module.exports = (router, passport) => {
 
 	//탭별 navactive class 추가
 	var navactive = (path) => {
+		
 		var itemactive = 'nav-item active', arritem = ['nav-item', 'nav-item', 'nav-item'];
 		switch (path) {
 			case '/':
@@ -18,7 +19,8 @@ module.exports = (router, passport) => {
 			case '/addpost':
 				arritem[1] = itemactive;
 				break;
-			case '/listpost':
+			case '/listpost' :
+			case '/process/search' :
 				arritem[2] = itemactive;
 				break;
 			default:

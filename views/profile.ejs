@@ -16,7 +16,7 @@
 	<div class="container mt-4">			
 						
 		<div class="page-header text-center">
-			<h1><span class="fa fa-book"></span>내 정보</h1>
+			<h1><span class="fa fa-book" id='my_info' data-id='<%=user._id %>'></span>내 정보</h1>
 		</div>
 		<br>
 		<div class="row">
@@ -25,7 +25,7 @@
 				<div class="well">
 
 					<% if (user.provider == undefined || user.provider == '') { %>
-						<h3><span class="fa fa-user"></span> 로컬 프로필</h3>
+						<h3><span class="fa fa-user"></span> 프로필</h3>
 						<br>
 						<p>
 							<strong>이메일</strong>: <%= user.email %><br><br>
@@ -56,8 +56,10 @@
 							<strong>이름</strong>: <%= user.google.name %>
 						</p>
 					<% } %>
-						<br>
-						<button type="button" class="btn btn-outline-secondary" onclick="location.href='/'">Home</button>
+					<br>
+					<button type="button" class="btn btn-outline-primary mt-3" id='myPost' onclick='search();'>내가 쓴 글</button>
+					<br>
+					<button type="button" class="btn btn-outline-secondary mt-2" onclick="location.href='/'">Home</button>
 
 					<br>
 				</div>
@@ -66,7 +68,16 @@
 		</div>
 
 	</div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	  
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	  
+	<script>
+		function search() {
+			var idinfo = $('#my_info')[0].dataset.id;
+			location.href = '/process/search?value=' + idinfo + '&ops=' + 'writer';
+		}
+	</script>
+	  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   </body>
 </html>

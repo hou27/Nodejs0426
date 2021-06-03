@@ -37,7 +37,14 @@
 				<% for (var i = 0; i < posts.length; i++){ %>
 					<li class="list-group-item" id="<%= posts[i]._id %>">
 						<h4 class='view' data-id='<%= posts[i]._id %>' style='cursor: pointer;'> 제목 : <%= posts[i].title %> </h4>
-						<div class="float-right">hits : <%= posts[i].hits %></div><br>
+						<div class="float-right">
+							<span class="float-right badge badge-pill badge-light ml-2">hits : <%= posts[i].hits %></span>
+							<br>
+							<% if(posts[i].comments.length > 0) { %>
+								<span class="float-right badge badge-primary badge-pill ml-2"><%= posts[i].comments.length %></span>
+							<% } %>
+						</div><br>
+						
 						<p> 내용 : <%= posts[i].contents %></p>
 						<% if (login_success && user._id == posts[i].writer) { %>
 						<button class='btn btn-outline-danger btn-sm delete' data-id='<%= posts[i]._id %>'>삭제</button>
@@ -120,6 +127,8 @@
 			})
 		
 		window.onload = () => {
+			if($('#opsearch')[0].innerText == 'writer')
+				return;
 			$('#search-input').focus();
 		}
 	</script>
