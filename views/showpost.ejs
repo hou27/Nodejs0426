@@ -125,19 +125,17 @@
 		// 	}) 
 		// }
 		function addComment() {
-			var formData = $('#addcomment').serialize() // serialize 사용
-			console.log(formData);
+			var formData = $('#addcomment').serializeArray(); // serialize 사용 -- 객체 형식으로
 			$.ajax({
-				url: "/process/addcomment",
 				method: "POST",
-				data: formData // data에 바로 serialze한 데이터를 넣는다.
+				url: "/process/addcomment",
+				data: {id: formData[2].value, contents: formData[0].value, writer: formData[1].value}
 			}).done( (results) => {
 				console.log('call view');
 				// Contents 영역 제거
-				$('#comments').children().remove();
+				$('.comments').children().remove();
 				// Contents 영역 교체
-				$('#comments').html(results);
-				console.log(results);
+				$('.comments').html(results);
 			}).fail( (xhr, textStatus, errThrown) => {
 				console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
 			});

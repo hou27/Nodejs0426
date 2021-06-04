@@ -571,16 +571,16 @@ module.exports = (app, router, path) => {
 								return;
 							}
 							console.log("댓글 작성자 배열 : ", context.writer);
-							//res.send(html);
+							res.send(html);
 						}
 
 						if (!req.user) {
 							console.log('사용자 인증 안된 상태임.');
 							context.login_success = false;
-							return res.render('comment.ejs', context, cb);
+							res.render('comment.ejs', context, cb);
 						} else {
 							console.log('사용자 인증된 상태임.');
-							return res.render('comment.ejs', context, cb);
+							res.render('comment.ejs', context, cb);
 						}
 					}
 
