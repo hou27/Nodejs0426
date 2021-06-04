@@ -104,7 +104,7 @@
 		})
 		
 		function addComment() {
-			if($('#comment')[0].value !== '') {
+			if($("#comment").val().length > 0) {
 				var formData = $('#addcomment').serializeArray(); // serialize 사용 -- 객체 형식으로
 				$.ajax({
 					method: "POST",
