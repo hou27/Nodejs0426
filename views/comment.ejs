@@ -1,6 +1,6 @@
 <% if (login_success) { %>
 		<div class="comments">
-			<h4>댓글<span class="count"><span id="commentCount65_0"></span></span></h4>
+			<h4>댓글<span class="count badge badge-pill badge-info"><span id="commentCount65_0"></span><%=posts._doc.comments.length %></span></h4>
 			<div class="comment-list">
 				<% for (var i = 0; i < posts._doc.comments.length; i++) { %>
 					<div class="comment">

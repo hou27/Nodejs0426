@@ -103,42 +103,23 @@
 			}
 		})
 		
-		// function addComment() {
-		// 	var formData = $('#addcomment').serialize() // serialize 사용
-		// 	console.log(formData);
-		// 	$.ajax({
-		// 		url: "/process/addcomment",
-		// 		type: "POST",
-		// 		cache: false,
-		// 		data: formData, // data에 바로 serialze한 데이터를 넣는다.
-		// 		success: (results) => {
-		// 			console.log('call view');
-		// 			// Contents 영역 제거
-		// 			$('#comments').children().remove();
-		// 			// Contents 영역 교체
-		// 			$('#comments').html(results);
-		// 			console.log(results);
-		// 		},
-		// 		error: (request, textStatus, errThrown) => {
-		// 			console.log(errThrown);
-		// 		}
-		// 	}) 
-		// }
 		function addComment() {
-			var formData = $('#addcomment').serializeArray(); // serialize 사용 -- 객체 형식으로
-			$.ajax({
-				method: "POST",
-				url: "/process/addcomment",
-				data: {id: formData[2].value, contents: formData[0].value, writer: formData[1].value}
-			}).done( (results) => {
-				console.log('call view');
-				// Contents 영역 제거
-				$('.comments').children().remove();
-				// Contents 영역 교체
-				$('.comments').html(results);
-			}).fail( (xhr, textStatus, errThrown) => {
-				console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
-			});
+			if($('#comment')[0].innerText !== '') {
+				var formData = $('#addcomment').serializeArray(); // serialize 사용 -- 객체 형식으로
+				$.ajax({
+					method: "POST",
+					url: "/process/addcomment",
+					data: {id: formData[2].value, contents: formData[0].value, writer: formData[1].value}
+				}).done( (results) => {
+					console.log('call view');
+					// Contents 영역 제거
+					$('.comments').children().remove();
+					// Contents 영역 교체
+					$('.comments').html(results);
+				}).fail( (xhr, textStatus, errThrown) => {
+					console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+				});
+			}
 		}
 	</script>
 	  
