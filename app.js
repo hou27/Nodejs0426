@@ -33,7 +33,9 @@ var database = require('./database/database');
 
 const flash = require('connect-flash');
 
-var app = express();
+const app = express();
+
+
 
 //view engine 설정
 app.set('views', __dirname + '/views');
@@ -104,6 +106,9 @@ configPassport(app, passport);
 var userPassport = require('./router/user_passport');
 userPassport(router, passport);
 
+var chatRouter = require('./router/socket');
+chatRouter(app, router);
+
 //favicon 요청 무시
 app.get('/favicon.ico', (req, res) => res.status(204));
 
@@ -154,9 +159,67 @@ app.on('close', () => {
 	}
 });
 
+
+
+
+
 // 시작된 서버 객체를 리턴
-var server = http.createServer(app).listen(app.get('port'), () => {
+var server = http.createServer(app);
+
+
+server.listen(app.get('port'), () => {
 	console.log('서버가 시작되었습니다. 포트 : ' + app.get('port'));
 	// 데이터베이스 초기화
 	database.init(app, config);
 });
+
+
+//socket.io 사용을 위해
+const io = require("socket.io")(server);
+
+io.on('connection', (socket) => {
+	console.log('socket이 연결되었습니다.');
+	socket.on('disconnect', () => {
+		console.log('socket has disconnected');
+	});
+	
+	socket.on('sendmsg', (data) => {
+		console.log('수신됨 ::: ' + data);
+		//server가 받은 data를 broadcasting
+		io.emit('broadcast', data);
+	})
+})
+
+//namespace 문법을 이용하여 채팅방만들기
+var chat = io.of('/chat');
+
+chat.on('connection', (socket) => {
+	
+	var joinroom = '';
+	
+	socket.on('req', (roomnum) => {
+		if(roomnum.roomnum)
+			joinroom = roomnum.roomnum;
+		else
+			joinroom = roomnum;
+		
+		
+		if(roomnum.pw && roomnum.pw != 0327) {
+			return;
+		}
+		//room 개념을 이용
+		socket.join(joinroom);
+		console.log('entered' + joinroom);
+	})
+	
+	console.log('socket이 연결되었습니다.');
+	socket.on('disconnect', () => {
+		console.log('socket has disconnected');
+	});
+	
+	socket.on('sendmsg', (data) => {
+		console.log('chat의 ' + joinroom + '에서 ' + socket.id + '의 메시지가 수신됨 ::: ' + data);
+		//server가 받은 data를 broadcasting
+		chat.to(joinroom).emit('broadcast', data);
+	})
+})

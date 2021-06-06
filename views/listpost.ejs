@@ -85,25 +85,6 @@
 			location.href = '/process/showpost/' + postNum;
 		});
 		
-		//게시물 이동 기능 구현
-		// $('.view').click( (e) => {
-		// 	var postNum = e.target.dataset.id;
-		// 	$.ajax({
-		// 		method : 'GET',
-		// 		url : '/process/showpostForAjax/'+postNum,
-		// 		//data : { _id : postNum }
-		// 	}).done( (results) => {
-		// 		console.log('call view');
-		// 		// Contents 영역 제거
-		// 		$('.container.mt-4.delsec').children().remove();
-		// // Contents 영역 교체
-		// $('.container.mt-4.delsec').html(results);
-		// 		console.log(results);
-		// 	}).fail( (xhr, textStatus, errThrown) => {
-		// 		console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
-		// 	});
-		// })
-		
 		//검색 옵션 보이기
 		$('#opsearch').click( () => {
 			if($('#opsearch')[0].innerText == '제목') {
