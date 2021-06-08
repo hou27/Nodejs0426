@@ -177,18 +177,7 @@ server.listen(app.get('port'), () => {
 //socket.io 사용을 위해
 const io = require("socket.io")(server);
 
-io.on('connection', (socket) => {
-	console.log('socket이 연결되었습니다.');
-	socket.on('disconnect', () => {
-		console.log('socket has disconnected');
-	});
-	
-	socket.on('sendmsg', (data) => {
-		console.log('수신됨 ::: ' + data);
-		//server가 받은 data를 broadcasting
-		io.emit('broadcast', data);
-	})
-})
+
 
 //namespace 문법을 이용하여 채팅방만들기
 var chat = io.of('/chat');
@@ -198,6 +187,7 @@ chat.on('connection', (socket) => {
 	var joinroom = '';
 	
 	socket.on('req', (roomnum) => {
+
 		if(roomnum.roomnum)
 			joinroom = roomnum.roomnum;
 		else
@@ -213,11 +203,16 @@ chat.on('connection', (socket) => {
 	})
 	
 	console.log('socket이 연결되었습니다.');
-	socket.on('disconnect', () => {
-		console.log('socket has disconnected');
+	socket.on('disconnect', (roomnum) => {
+		socket.leave(roomnum, () => {
+			io.to(roomnum).emit("bye");
+		});
+		console.log(roomnum + ' socket has disconnected');
 	});
 	
 	socket.on('sendmsg', (data) => {
+		console.log('ROOM ::: ');
+		console.dir(socket.rooms)
 		console.log('chat의 ' + joinroom + '에서 ' + socket.id + '의 메시지가 수신됨 ::: ' + data);
 		//server가 받은 data를 broadcasting
 		chat.to(joinroom).emit('broadcast', data);

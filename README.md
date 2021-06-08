@@ -76,7 +76,13 @@ Nodejs practice
 
 
 --06.06  
-◆ chat 기능 개발 시작 -- "socket.io": "^4.1.2" 설치  
+◆ chat 기능 개발 시작 -- "socket.io": "^4.1.2" 설치 [cdnjs](https://cdnjs.com/libraries/socket.io)  
 ◆ 실시간 채팅 기능 초기단계 완료  
 
 //비밀채팅방 + 비밀번호 거는 기능 추가해야함.
+
+--06.08  
+◆ chat page를 우측 하단 floating btn을 통한 켜고 끌 수 있는 기능 구현  
+
+// 채팅방 ui 제작 해야함.  
+// 채팅 page 화면 resizing하면 ui 겹치는 문제 해결해야함.  

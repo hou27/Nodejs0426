@@ -41,4 +41,16 @@ module.exports = (app, router) => {
         }
 	});
 	
+	router.get('/chatpage', (req, res) => {
+		console.log('/chat 요청됨.');
+		
+		if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.render('chatpage.ejs', {login_success:false, arritem: navactive(req.path)});
+        } else {
+            console.log('사용자 인증된 상태임.');
+            res.render('chatpage.ejs', {login_success:true, user: req.user, arritem: navactive(req.path)});
+        }
+	});
+	
 };
