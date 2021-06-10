@@ -1,6 +1,7 @@
 /*
  * 메인 js 파일
  * -- 김정호
+ * 참고 : https://heodang-repository.tistory.com/m/28?category=835688, 생활코딩(이고잉)
  */
 
 
