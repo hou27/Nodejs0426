@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
+	<link rel="stylesheet" href="/public/css/chat.css"/>
     <title>글 조회</title>
   </head>
   <body>
@@ -48,8 +48,9 @@
 		
 		
 		 <br><br><button type="button" class="btn btn-light" id='back' onclick='location.href=document.referrer'>Back</button>
-	</div>		
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	</div>	
+	<%- include ("./chatpage.ejs") %>
+    <%- include ("./footer.ejs") %>
 
 	<script>
 		//댓글 입력 후에 enter버튼 활성화
@@ -122,8 +123,5 @@
 			}
 		}
 	</script>
-	  
-	  
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   </body>
 </html>

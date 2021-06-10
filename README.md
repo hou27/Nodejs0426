@@ -51,7 +51,7 @@ Nodejs practice
 
 --05.31(연등)  
 ◆ 검색 input태그에 enter이벤트 추가  
-◆ 리스트페이지에서 keypress이벤트 발생 시 검색란 focus 추가  
+◆ 리스트페이지에서 keypress이벤트 발생 시 검색란 focus 추가  --06.10 기능 삭제
 ◆ 검색결과 창에서 내용 or 제목 옵션 유지되도록 추가  
 ◆ /process/addpost의 image 첨부 안했을 경우의 예외처리  
 ◆ post 상세페이지를 작성자 본인이 들어갔을 경우 삭제 기능 추가  
@@ -85,4 +85,8 @@ Nodejs practice
 ◆ chat page를 우측 하단 floating btn을 통한 켜고 끌 수 있는 기능 구현  
 
 // 채팅방 ui 제작 해야함.  
-// 채팅 page 화면 resizing하면 ui 겹치는 문제 해결해야함.  
+// 채팅 page 화면 resizing하면 ui 겹치는 문제 해결해야함. -- position fixed로 전부 수정하여 일단 해결(chat page가 화면 사이즈마다 resizing되게 할지는 고민)  
+
+--06.10  
+◆ chat page css 수정  
+◆ 모든 창에서 chating 기능 이용할 수 있도록 함.(chat.js, chat.css, chatpage.ejs, footer.ejs에 관련 내용있음.) ++ listpage에서 자동 focus기능 삭제함.  

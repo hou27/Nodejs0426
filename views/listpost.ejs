@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
+	<link rel="stylesheet" href="/public/css/chat.css"/>
     <title>Write</title>
   </head>
   <body>
@@ -58,9 +58,9 @@
 			<% } %>
 		</ul>
 	</div>
-	
+	<%- include ("./chatpage.ejs") %>
 	  
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<%- include ("./footer.ejs") %>
 	  
 	<script>
 		//게시물 삭제 버튼 구현
@@ -101,21 +101,12 @@
 				location.href = '/process/search?value=' + search_input + '&ops=' + $('#opsearch')[0].innerText;
 			}
 		}
-		
+		/*
 		window.addEventListener(
 			'keypress', () => {
 				$('#search-input').focus();
 			})
-		
-		window.onload = () => {
-			if($('#opsearch')[0].innerText == 'writer')
-				return;
-			$('#search-input').focus();
-		}
+		*/
 	</script>
-	  
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   </body>
 </html>
