@@ -699,6 +699,30 @@ module.exports = (app, router, path) => {
 		}
 	});
 	
-	
+	//댓글 삭제, 수정 기능 구현 예정
+	router.post('/process/removeComment', (req, res) => {
+		console.log("/process/removeComment 요청됨.");
+		console.log("선택한 댓글에 대한 id 정보 : ", req.body._id);
+		var postid = req.body._id
+			, commentid = req.body.commentid;
+		
+		var database = req.app.get('database');
+		
+		if (database.db) {
+			database.PostModel.update({ _id: postid }, {$pull: {comments: {_id: commentid}}}, (err, results) => {
+				// 에러 발생 시, 클라이언트로 에러 전송
+				if (err) {
+					console.error('삭제 중 에러 발생 : ' + err.stack);
+					res.status(500);
+					throw err;
+				}
+				// 결과 발생 시, 데이터 전송
+				if (results) {
+					console.log('삭제... 후 ui 제거', results);
+					res.status(200).send({ message : '게시글 삭제 성공' });
+				}
+			});
+		}
+	})
 	
 };

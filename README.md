@@ -90,3 +90,17 @@ Nodejs practice
 --06.10  
 ◆ chat page css 수정  
 ◆ 모든 창에서 chating 기능 이용할 수 있도록 함.(chat.js, chat.css, chatpage.ejs, footer.ejs에 관련 내용있음.) ++ listpage에서 자동 focus기능 삭제함.  
+
+// showpost comment ui 뒤틀림 발견 --> flexbox로 해결   --done  
+
+--06.13(연등)  
+◆ 빈 값으로 등록된 댓글 아래와 같은 과정으로 db update하여 댓글 제거함.  
+```
+db.posts.findOne({comments:{"$elemMatch":{contents:''}}})
+db.posts.find({title:'fortest'},{comments:{"$elemMatch":{contents:''}}})
+db.posts.update({title:'fortest'},{$pull:{comments:{contents:''}}})
+```
+◆ showpost page 댓글 ui flexbox로 정렬  
+◆ comment 삭제 기능 구현 중...  
+// 각 ejs의 script들 정리 필요.  
+// listpost page infinity scroll 구현 예정 -> [참고](https://code-study.tistory.com/22)  
