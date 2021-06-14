@@ -22,8 +22,9 @@ $('#join2').click( () => {
 })
 //data 전송 함수
 function send() {
-	console.log('send() has been active');
+	
 	if($("#sendmsg").val().length > 0) {
+		console.log('send() has been active');
 		var sendmsg = $("#sendmsg").val();
 		socket.emit('sendmsg', sendmsg);
 	}

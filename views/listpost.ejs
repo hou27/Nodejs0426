@@ -112,14 +112,23 @@
 		// 페이징 기법으로 구현 예정 게시물 6개씩 끊어서 페이징할 예정
 		var count = 0;
 		window.onscroll = (e) => {
-			console.log('if ::: ', posts.length);
-			console.log(window.innerHeight , window.scrollY,document.body.offsetHeight)
+			//console.log(window.innerHeight , window.scrollY,document.body.offsetHeight)
 			if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) { 
-			setTimeout(function(){
-			  var addContent = document.createElement("li");
-			  addContent.innerText = `${++count}번째 블록`
-			  $('.list-group.container.mt-4').append(addContent);
-			}, 500)  
+				setTimeout(function(){
+					$.ajax({
+						method : 'GET',
+						url : '/listpost'
+					}).done( (results) => {
+						console.log(results);
+						console.log('load post exec');
+						
+					}).fail( (xhr, textStatus, errThrown) => {
+						console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+					});
+					var addContent = document.createElement("li");
+					addContent.innerText = `${++count}번째 블록`
+					$('.list-group.container.mt-4').append(addContent);
+				}, 500)  
 			}
 		}
 	</script>

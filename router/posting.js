@@ -306,6 +306,10 @@ module.exports = (app, router, path) => {
 		
 	});
 	
+	/**
+	 * listpost에선 페이징한 게시물을 끊어서 보내고, 클라이언트 측에선 하단에 도착 시마다 몇 페이지까지 로드된 상태인지 전달해야한다.
+	 * 필요 시 추가로 ejs파일 하나를 만들 것.
+	 */
 	router.get('/listpost', (req, res) => {
 		console.log("/listpost 요청됨.");
 		
