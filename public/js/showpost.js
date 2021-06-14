@@ -51,6 +51,11 @@ $('#delete').click( (e) => {
 
 // 댓글 삭제 기능 구현 중... -06.13
 function delComment() {
+	
+	
+}
+
+$('.deleteComment').click( (e) => {
 	if(confirm('정말 댓글을 삭제하시겠습니까?')) {
 		var commentid = e.target.dataset.id
 			, postid = $('#hiddenPostId')[0].value;
@@ -60,11 +65,19 @@ function delComment() {
 			data : { _id: postid, commentid : commentid }
 		}).done( (results) => {
 			console.log('remove comment');
+			var deleteUI = '#' + commentid
+				,decCnt = $('#commentCnt')[0].innerText;
+			console.log('ui fadeout exec');
+			$(deleteUI).fadeOut();
+			$('#commentCnt')[0].innerText = parseInt(decCnt) - 1;
 		}).fail( (xhr, textStatus, errThrown) => {
 			console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
 		});
 	}
-}
+})
+
+
+
 
 function addComment() {
 	if($("#comment").val().length > 0) {

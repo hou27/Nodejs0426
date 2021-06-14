@@ -104,3 +104,11 @@ db.posts.update({title:'fortest'},{$pull:{comments:{contents:''}}})
 ◆ comment 삭제 기능 구현 중...  
 // 각 ejs의 script들 정리 필요.  
 // listpost page infinity scroll 구현 예정 -> [참고](https://code-study.tistory.com/22)  
+
+--06.14(연등)  
+◆ comment 삭제 기능 구현 완료  
+◆ comment ui 수정  
+◆ main home page 사진 비율 조정  
+
+// 가끔 마지막 댓글의 작성자가 뜨지 않는 경우 발견  
+// 게시물을 6~7개 정도로 끊어 페이징하여 무한 스크롤을 구현할 예정  

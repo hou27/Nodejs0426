@@ -1,8 +1,50 @@
 .comment {
 	display: flex;
-	flex-direction: column;
+    flex-direction: column;
+    position: relative;
+    background-color: #f7fff817;
+    border: 1px solid rgb(134 208 107 / 48%);
+    color: #363636;
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 10px;
+    width: calc(33% - 1px);
+    border-radius: .25rem;
 }
 
 .commentContents {
 	
+}
+
+.ops {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.btn-outline {
+	color: #8a8686;
+    border-color: #ffffff;
+}
+
+.dropdown-menu.show {
+	z-index: 1000;
+    float: left;
+    min-width: 5rem;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff0;
+    background-clip: padding-box;
+    border-radius: .25rem;
+    margin-top: 0;
+    margin-right: .125rem;
+    position: absolute;
+    transform: translate3d(-100px, 0px, 0px)!important;
+    top: 0px;
+    left: 0px;
+    will-change: transform;
 }

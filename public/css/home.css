@@ -1,0 +1,8 @@
+.imgSection {
+    width: 100%!important;
+	display: block!important;
+    height: 600px;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 5px;
+}
