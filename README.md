@@ -112,3 +112,14 @@ db.posts.update({title:'fortest'},{$pull:{comments:{contents:''}}})
 
 // 가끔 마지막 댓글의 작성자가 뜨지 않는 경우 발견  
 // 게시물을 6~7개 정도로 끊어 페이징하여 무한 스크롤을 구현할 예정  
+
+
+--06.14(연등)  
+◆ comment ui 수정  
+◆ 댓글 수정 기능 구현 중  
+```
+db.posts.update({title:'fortest'},{comments:{"$elemMatch":{_id:"60c75fecb9c0cb0e2a0b05e0"}}}, {$set:{comments:{contents:'updatetest'}}})
+db.posts.find({title:'fortest'},{comments:{"$elemMatch":{_id:"60c75fecb9c0cb0e2a0b05e0"}}})
+db.posts.findOne({_id:ObjectId("60c8b602e9909e033b2f492a"),{comments:{"$elemMatch":{_id:"60a882ca8895d60255a0e3a3"}}}})
+```
+// $set을 이용하여 배열 내의 댓글 값을 update하려했지만 의도한 결과를 얻지 못함..  
