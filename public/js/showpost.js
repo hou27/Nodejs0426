@@ -69,7 +69,7 @@ $('#delete').click( (e) => {
 
 
 // 댓글 삭제 기능
-$('.deleteComment').click( (e) => {
+$(document).on('click', '.deleteComment', (e) => {
 	if(confirm('정말 댓글을 삭제하시겠습니까?')) {
 		var commentid = e.target.dataset.id
 			, postid = $('#hiddenPostId')[0].value;
@@ -91,14 +91,14 @@ $('.deleteComment').click( (e) => {
 })
 
 // 댓글 수정 기능
-$('.editComment').click( (e) => {
+$(document).on('click', '.editComment', (e) => {
 	console.log(e.target.dataset.id);
 	var i = e.target.dataset.id
 		, contents = $('.commentContents.contents')[i].innerText;
 	$.ajax({
 		method : 'POST',
 		url : '/modifyComment',
-		data : { contents }
+		data : { contents, location: i }
 	}).done( (results) => {
 		console.log('modify comment');
 		//$(".commentContents.contents")[1].innerText
@@ -110,12 +110,12 @@ $('.editComment').click( (e) => {
 })
 
 // 댓글 수정 기능 (submit)
-$('#modifyCommentBtn').click( (e) => {
+$(document).on('click', '#modifyCommentBtn', (e) => {
 	console.log(e.target.dataset.id);
 	var i = e.target.dataset.id
 		, _id = $('#hiddenPostId')[0].value
 		, commentid = $('.comment')[i].id
-		, contents = $('.commentContents.modifingcontents')[i].innerText
+		, contents = $('.commentContents.modifingcontents')[0].value
 		, created = $('.commentContents.created')[i].innerText
 		, writer = $('.commentContents.writer')[i].innerText;
 	$.ajax({

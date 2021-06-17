@@ -731,39 +731,142 @@ module.exports = (app, router, path) => {
 	
 	router.post('/modifyComment', (req, res) => {
 		console.log("/modifyComment 요청됨.");
-		var commentContents = req.body.contents;
+		var commentContents = req.body.contents
+			, location = req.body.location;
 		
-		console.log("선택한 Comment에 대한 정보 : " + commentContents);
+		console.log("선택한 Comment에 대한 정보 : " + commentContents + " " + location);
 		
-		res.render('modifyComment.ejs', {commentContents});
+		res.render('modifyComment.ejs', {commentContents, location});
 	})
 	
 	router.post('/process/modifyComment', (req, res) => {
 		console.log("/process/modifyComment 요청됨.");
-		var postid = req.body._id
-			,commentId = req.body.commentid
+		var postId = req.body._id
+			, commentId = req.body.commentid
 			, commentContents = req.body.contents
 			, commentCreated = req.body.created
 			, commentWriter = req.body.writer;
 		
-		console.log("제출한 Comment에 대한 정보 : " + postid + ', ' + commentId + ', ' + commentContents + ', ' + commentCreated + ', ' + commentWriter);
+		var newComments = [];
+		
+		console.log("제출한 Comment에 대한 정보 : " + postId + ', ' + commentId + ', ' + commentContents + ', ' + commentCreated + ', ' + commentWriter);
 		
 		var database = req.app.get('database');
 		
 		if (database.db) {
-			database.PostModel.update({ _id: postid }, {comments: {_id: commentId}}, {$set:{}}, (err, results) => {
-				// 에러 발생 시, 클라이언트로 에러 전송
-				if (err) {
-					console.error('삭제 중 에러 발생 : ' + err.stack);
-					res.status(500);
-					throw err;
-				}
-				// 결과 발생 시, 데이터 전송
-				if (results) {
-					console.log('삭제... 후 ui 제거', results);
-					res.status(200).send({ message : '게시글 삭제 성공' });
-				}
-			});
+			// database.PostModel.update({ _id: postId }, {comments: {_id: commentId}}, {$set:{}}, (err, results) => {
+			// 	// 에러 발생 시, 클라이언트로 에러 전송
+			// 	if (err) {
+			// 		console.error('삭제 중 에러 발생 : ' + err.stack);
+			// 		res.status(500);
+			// 		throw err;
+			// 	}
+			// 	// 결과 발생 시, 데이터 전송
+			// 	if (results) {
+			// 		console.log('삭제... 후 ui 제거', results);
+			// 		res.status(200).send({ message : '게시글 삭제 성공' });
+			// 	}
+			// });
+			
+			// database.PostModel.find({ _id: postId }, (err, results) => {
+			// 	// 에러 발생 시, 클라이언트로 에러 전송
+			// 	if (err) {
+			// 		console.error('수정 중 에러 발생 : ' + err.stack);
+			// 		res.status(500);
+			// 		throw err;
+			// 	}
+			// 	// 결과 발생 시, 데이터 전송
+			// 	if (results) {
+			// 		console.log('수정... 후 reload', results);
+			// 	}
+			// }).forEach( (post) => {
+			// 	console.log('post info ::: ',post);
+			// 	post.comments.forEach( (comments) => {
+			// 		console.log(comments);
+			// 		if(comments._id == commentId) {
+			// 			var aNewItem = { contents: commentContents };
+			// 			database.PostModel.update(comments, {$set: aNewItem})
+			// 		}
+			// 	});
+			// }, (err, results) => {
+			// 	if (err) {
+			// 		console.error('수정 중 에러 발생 : ' + err.stack);
+			// 		res.status(500);
+			// 		throw err;
+			// 	}
+
+			// 	if (results) {
+			// 		console.log('수정... 후 reload', results);
+			// 		res.status(200);
+			// 		res.redirect('/process/showpost/' + postId);
+			// 	}
+			// });
+			
+			function cb(newComments) {
+				console.log('수정된 댓글 배열 ::: ', newComments);
+				database.PostModel.updateOne({ _id: postId }, {$set: {comments: newComments}}, (err, results) => {
+					if (err) {
+						console.error('수정 중 에러 발생 : ' + err.stack);
+						res.status(500);
+						throw err;
+					}
+
+					if (results) {
+						console.log('수정... 후 reload', results);
+						res.status(200);
+						//res.redirect('/process/showpost/' + postId);
+						res.send(commentContents);
+					}
+				})
+			}
+			
+			async function newCommentArray() {
+				await database.PostModel.find({ _id: postId }, (err, results) => {
+					// 에러 발생 시, 클라이언트로 에러 전송
+					if (err) {
+						console.error('수정 중 에러 발생 : ' + err.stack);
+						res.status(500);
+						throw err;
+					}
+					// 결과 발생 시, 데이터 전송
+					if (results) {
+						console.log('find 후 reload', results);
+
+						results[0].comments.forEach( (comments) => {
+							console.log(comments);
+
+
+							if(comments._id == commentId) {
+								console.log('gotit');
+								var commentTmp = comments;
+								commentTmp.contents = commentContents;
+								newComments.push( commentTmp );
+								// var aNewItem = { contents: commentContents };
+								// database.PostModel.updateOne(comments, {$set: aNewItem}, (err, results) => {
+								// 	if (err) {
+								// 		console.error('수정 중 에러 발생 : ' + err.stack);
+								// 		res.status(500);
+								// 		throw err;
+								// 	}
+
+								// 	if (results) {
+								// 		console.log('수정... 후 reload', results);
+								// 		res.status(200);
+								// 		//res.redirect('/process/showpost/' + postId);
+								// 		res.send(commentContents);
+								// 	}
+								// })
+							}
+							else {
+								newComments.push( comments );
+							}
+						});
+					}
+				});
+			}
+			
+			newCommentArray(cb(newComments));
+			
 		}
 	})
 	

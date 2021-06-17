@@ -123,3 +123,35 @@ db.posts.find({title:'fortest'},{comments:{"$elemMatch":{_id:"60c75fecb9c0cb0e2a
 db.posts.findOne({_id:ObjectId("60c8b602e9909e033b2f492a"),{comments:{"$elemMatch":{_id:"60a882ca8895d60255a0e3a3"}}}})
 ```
 // $set을 이용하여 배열 내의 댓글 값을 update하려했지만 의도한 결과를 얻지 못함..  
+
+--06.17(연등)   
+◆ 댓글 수정 기능 구현 중  
+```
+db.posts.update({_id:ObjectId("60c8bcea90054303835c6db6")},{comments:{_id:ObjectId("60cb453ee0579101e353d8e5")}},{$set:{comments:{contents:'updatetest'}}}) ::: X
+
+db.posts.find({_id:ObjectId("60cb4821e0579101e353d8e7")}).forEach( (post) => {
+	post.comments.forEach( (comments) => {
+		if(comments._id == ObjectId("60cb4827e0579101e353d8eb")) {
+			comments.contents = 'changeVal';
+		}
+	});
+	db.posts.save(post);
+});
+
+database.PostModel.find({ _id: postId }).forEach( (post) => {
+	post.comments.forEach( (comments) => {
+		if(comments._id == commentId) {
+			var aNewItem = { contents: commentContents };
+			database.PostModel.update(comments, {$set: aNewItem})
+		}
+	});
+});
+db.posts.find({ _id: ObjectId("60cb4821e0579101e353d8e7") }).forEach( (post) => {post.comments.forEach( (comments) => {if(comments._id == ObjectId("60cb4827e0579101e353d8eb")) {var aNewItem = { contents: 'changeVal' };db.posts.update(comments, {$set: aNewItem})}});});
+```
+◆ ajax로 불러온 Element의 event가 작동하지 않는 오류를 발견하여 아래와 같이 수정함.  
+```
+$('.deleteComment').click( (e) => {}) ::: before
+
+$(document).on('click', '.deleteComment', (e) => {}) ::: after
+```
+◆ 댓글 수정 과정에서 수정된 배열을 작성하는 과정이 queue로 넘어가서 빈 배열이 넘어감. 즉, 빈 댓글 배열로 set됨. 동기화 작업 진행해야함..  
