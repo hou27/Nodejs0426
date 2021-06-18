@@ -155,3 +155,7 @@ $('.deleteComment').click( (e) => {}) ::: before
 $(document).on('click', '.deleteComment', (e) => {}) ::: after
 ```
 ◆ 댓글 수정 과정에서 수정된 배열을 작성하는 과정이 queue로 넘어가서 빈 배열이 넘어감. 즉, 빈 댓글 배열로 set됨. 동기화 작업 진행해야함..  
+
+--06.18
+◆ 댓글 수정 기능 구현 완료  
+◆ postFunc.js에 refactoring  
