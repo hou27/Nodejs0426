@@ -12,7 +12,7 @@ module.exports = (app, router, path) => {
 	router.get('/addpost', (req, res) => {
 		console.log("/addpost 요청됨.");
 		
-		func.addPost(req, res);
+		funcs.addPost(req, res);
 	});
 	
 	//image upload를 위해 multer를 middleware로 동작
