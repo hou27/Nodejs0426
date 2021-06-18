@@ -159,3 +159,6 @@ $(document).on('click', '.deleteComment', (e) => {}) ::: after
 --06.18
 ◆ 댓글 수정 기능 구현 완료  
 ◆ postFunc.js에 refactoring  
+
+//21.06.18. 19:51 댓글 수정 후 'add'라고 댓글 추가했더니 댓글 전체가 날아가고 add만 남는 현상 발생. 재발하진 않으며 원인불명임.  
+  ㄴ (postId : 60cb4821e0579101e353d8e7)  
