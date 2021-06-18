@@ -69,7 +69,7 @@ Nodejs practice
 ◆ Back 버튼의 onclick event를 history로 수정  
 ◆ profile 페이지에서 내가 쓴 글 볼 수 있는 버튼 && 기능 추가  
 ◆ listpost 댓글 수 ui 추가  
-◆ back 버튼 댓글 작성 시 referrer가 보안상 하나전까지만 담을 수 있어 list로 못 빠져나감. --> 댓글 다는 방식을 ajax로 변경함. -----> 실패 추후 다시 할 예정
+◆ back 버튼 댓글 작성 시 referrer가 보안상 하나전까지만 담을 수 있어 list로 못 빠져나감. --> 댓글 다는 방식을 ajax로 변경함. ---> 실패 추후 다시 할 예정
 
 --06.04  
 ◆ 댓글 다는 방식을 ajax로 변경 성공 form 태그 안에 버튼 타입을 submit으로 유지해서 헤맸음. --> 댓글 문자열이 특수코드로 변환되는 문제 남음. --> form data를 객체형식으로 serialize해서 해결.
@@ -162,3 +162,5 @@ $(document).on('click', '.deleteComment', (e) => {}) ::: after
 
 //21.06.18. 19:51 댓글 수정 후 'add'라고 댓글 추가했더니 댓글 전체가 날아가고 add만 남는 현상 발생. 재발하진 않으며 원인불명임.  
   ㄴ (postId : 60cb4821e0579101e353d8e7)  
+  
+//게시물 사진 규격 정해야함.

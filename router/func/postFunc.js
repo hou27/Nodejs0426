@@ -1,3 +1,5 @@
+var path = require('path');
+
 //탭별 navactive class 추가
 var navactive = (path) => {
 	var itemactive = 'nav-item active', arritem = ['nav-item', 'nav-item', 'nav-item'];
