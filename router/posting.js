@@ -59,18 +59,21 @@ module.exports = (app, router, path) => {
 	
 	router.post('/process/edit/', (req, res) => {
 		console.log("/process/edit 요청됨.");
+		
 		funcs.processEditPost(req, res);
 		
 	});
 	
 	router.delete('/process/delete', (req, res) => {
 		console.log("/process/delete 요청됨.");
+		
 		funcs.processDeletePost(req, res);
 	});
 	
 	//댓글 삭제, 수정 기능 구현
 	router.post('/process/removeComment', (req, res) => {
 		console.log("/process/removeComment 요청됨.");
+		
 		funcs.processRemoveComment(req, res);
 	});
 	
@@ -82,6 +85,7 @@ module.exports = (app, router, path) => {
 	
 	router.post('/process/modifyComment', (req, res) => {
 		console.log("/process/modifyComment 요청됨.");
+		
 		funcs.processModifyComment(req, res);
 	});
 	

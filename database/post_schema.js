@@ -14,11 +14,11 @@ SchemaObj.createSchema = (mongoose) => {
 	
 	// 글 스키마 정의
 	var PostSchema = mongoose.Schema({
-	    title: {type: String, trim: true, 'default':''},		// 글 제목
-	    contents: {type: String, trim: true, 'default':''},						// 글 내용
-	    writer: {type: mongoose.Schema.ObjectId, ref: 'users1'},							// 글쓴 사람
+	    title: {type: String, trim: true, 'default':''},
+	    contents: {type: String, trim: true, 'default':''},
+	    writer: {type: mongoose.Schema.ObjectId, ref: 'users1'},
 	    comments: [{		// 댓글
-	    	contents: {type: String, trim:true, 'default': ''},					// 댓글 내용
+	    	contents: {type: String, trim:true, 'default': ''},
 	    	writer: {type: String, trim:true, 'default': ''},
 	    	created_at: {type: Date, 'default': Date.now}
 	    }],
@@ -37,30 +37,12 @@ SchemaObj.createSchema = (mongoose) => {
 	PostSchema.methods = {
 		savePost: function(callback) {		// 글 저장
 			var self = this;
-			
-			this.validate(function(err) {
+			console.log('chk ::: ', this);
+			this.validate( (err) => {
 				if (err) return callback(err);
 				
 				self.save(callback);
 			});
-		},
-		addComment: function(user, comment, callback) {		// 댓글 추가
-			this.comment.push({
-				contents: comment.contents,
-				writer: user._id
-			});
-			
-			this.save(callback);
-		},
-		removeComment: function(id, callback) {		// 댓글 삭제
-			var index = utils.indexOf(this.comments, {id: id});
-			if (~index) {
-				this.comments.splice(index, 1);
-			} else {
-				return callback('ID [' + id + '] 를 가진 댓글 객체를 찾을 수 없습니다.');
-			}
-			
-			this.save(callback);
 		}
 	}
 	

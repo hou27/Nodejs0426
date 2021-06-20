@@ -641,6 +641,26 @@ exports.processRemoveComment = (req, res) => {
 	var database = req.app.get('database');
 
 	if (database.db) {
+		
+		// var post = new database.PostModel({
+		// 	postid,
+		// 	commentid
+		// });
+		
+		// post.removeComment( (err, results) => {
+		// 	// 에러 발생 시, 클라이언트로 에러 전송
+		// 	if (err) {
+		// 		console.error('삭제 중 에러 발생 : ' + err.stack);
+		// 		res.status(500);
+		// 		throw err;
+		// 	}
+		// 	// 결과 발생 시, 데이터 전송
+		// 	if (results) {
+		// 		console.log('삭제... 후 ui 제거', results);
+		// 		res.status(200).send({ message : '게시글 삭제 성공' });
+		// 	}
+		// });
+		
 		database.PostModel.update({ _id: postid }, {$pull: {comments: {_id: commentid}}}, (err, results) => {
 			// 에러 발생 시, 클라이언트로 에러 전송
 			if (err) {
