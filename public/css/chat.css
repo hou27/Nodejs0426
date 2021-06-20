@@ -85,13 +85,13 @@ a.float:hover .user-req-list {
   visibility: hidden;
 }
 
-.chatUI {
+/*.chatUI {
 	width: 500px;
 	height: 700px;
 	position: fixed;
 	right: 0px;
 	bottom: 0%;
-}
+}*/
 
 .chatbox {
 	width: 332px;
