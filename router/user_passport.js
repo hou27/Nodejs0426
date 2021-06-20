@@ -4,30 +4,11 @@
  * @date 2016-11-10
  * @author Mike
  */
-  
+
+var utils = require('../utils/utils');
+
 module.exports = (router, passport) => {
     console.log('user_passport 호출됨.');
-
-	//탭별 navactive class 추가
-	var navactive = (path) => {
-		
-		var itemactive = 'nav-item active', arritem = ['nav-item', 'nav-item', 'nav-item'];
-		switch (path) {
-			case '/':
-				arritem[0] = itemactive;
-				break;
-			case '/addpost':
-				arritem[1] = itemactive;
-				break;
-			case '/listpost' :
-			case '/process/search' :
-				arritem[2] = itemactive;
-				break;
-			default:
-				break;
-		}
-		return arritem;
-	}
 	
     // 홈 화면
     router.get('/', (req, res) => {
@@ -36,10 +17,10 @@ module.exports = (router, passport) => {
         // 인증 안된 경우
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.render('home.ejs', {login_success:false, arritem: navactive(req.path)});
+            res.render('home.ejs', {login_success:false, arritem: utils.navactive(req.path)});
         } else {
             console.log('사용자 인증된 상태임.');
-            res.render('home.ejs', {login_success:true, user: req.user, arritem: navactive(req.path)});
+            res.render('home.ejs', {login_success:true, user: req.user, arritem: utils.navactive(req.path)});
         }
     });
     
@@ -50,10 +31,10 @@ module.exports = (router, passport) => {
 		
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.render('login.ejs', {message: req.flash('loginMessage'), login_success:false, arritem: navactive(req.path)});
+            res.render('login.ejs', {message: req.flash('loginMessage'), login_success:false, arritem: utils.navactive(req.path)});
         } else {
             console.log('사용자 인증된 상태임.');
-            res.render('login.ejs', {message: req.flash('loginMessage'), login_success:true, user: req.user, arritem: navactive(req.path)});
+            res.render('login.ejs', {message: req.flash('loginMessage'), login_success:true, user: req.user, arritem: utils.navactive(req.path)});
         }
     });
 	 
@@ -63,10 +44,10 @@ module.exports = (router, passport) => {
 		// 인증 안된 경우
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.render('signup.ejs', {message: req.flash('signupMessage'), login_success:false, arritem: navactive(req.path)});
+            res.render('signup.ejs', {message: req.flash('signupMessage'), login_success:false, arritem: utils.navactive(req.path)});
         } else {
             console.log('사용자 인증된 상태임.');
-            res.render('signup.ejs', {message: req.flash('signupMessage'), login_success:true, user: req.user, arritem: navactive(req.path)});
+            res.render('signup.ejs', {message: req.flash('signupMessage'), login_success:true, user: req.user, arritem: utils.navactive(req.path)});
         }
     });
 	 
@@ -82,9 +63,9 @@ module.exports = (router, passport) => {
             console.log('사용자 인증된 상태임.');
 
             if (Array.isArray(req.user)) {
-                res.render('profile.ejs', {user: req.user, login_success:true, arritem: navactive(req.path)});
+                res.render('profile.ejs', {user: req.user, login_success:true, arritem: utils.navactive(req.path)});
             } else {
-                res.render('profile.ejs', {user: req.user, login_success:true, arritem: navactive(req.path)});
+                res.render('profile.ejs', {user: req.user, login_success:true, arritem: utils.navactive(req.path)});
             }
         }
     });

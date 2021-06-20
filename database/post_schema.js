@@ -44,6 +44,26 @@ SchemaObj.createSchema = (mongoose) => {
 				self.save(callback);
 			});
 		}
+		// addComment: function(user, comment, callback) {		// 댓글 추가
+		// 	this.comment.push({
+		// 		contents: comment.contents,
+		// 		writer: user._id
+		// 	});
+			
+		// 	this.save(callback);
+		// },
+		// removeComment: function(id, callback) {		// 댓글 삭제
+		// 	var index = utils.indexOf(this.comments, {id: id});
+		// 	console.log('this ::: ', this);
+		// 	//this.updateOne({ _id: this.postid }, {$pull: {comments: {_id: this.commentid}}}, callback);
+		// 	if (~index) {
+		// 		this.comments.splice(index, 1);
+		// 	} else {
+		// 		return callback('ID [' + id + '] 를 가진 댓글 객체를 찾을 수 없습니다.');
+		// 	}
+			
+		// 	this.save(callback);
+		// }
 	}
 	
 	PostSchema.statics = {

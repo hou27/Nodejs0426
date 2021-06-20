@@ -1,24 +1,5 @@
-var path = require('path');
-
-//탭별 navactive class 추가
-var navactive = (path) => {
-	var itemactive = 'nav-item active', arritem = ['nav-item', 'nav-item', 'nav-item'];
-	switch (path) {
-		case '/':
-			arritem[0] = itemactive;
-			break;
-		case '/addpost' :
-			arritem[1] = itemactive;
-			break;
-		case '/listpost' :
-		case '/process/search' :
-			arritem[2] = itemactive;
-			break;
-		default:
-			break;
-	}
-	return arritem;
-}
+var path = require('path')
+	,utils = require('../../utils/utils');
 
 // 이미지처리용 multer setting
 var multer = require('multer')
@@ -194,10 +175,10 @@ exports.addPost = (req, res) => {
 	req.flash('loginRequired', '로그인 후 이용할 수 있는 기능입니다.');
 	if (!req.user) {
 		console.log('사용자 인증 안된 상태임.');
-		res.render('addpost.ejs', {login_success:false, message: req.flash('loginRequired'), arritem: navactive(req.path)});
+		res.render('addpost.ejs', {login_success:false, message: req.flash('loginRequired'), arritem: utils.navactive(req.path)});
 	} else {
 		console.log('사용자 인증된 상태임.');
-		res.render('addpost.ejs', {login_success:true, user: req.user, message: req.flash(), arritem: navactive(req.path)});
+		res.render('addpost.ejs', {login_success:true, user: req.user, message: req.flash(), arritem: utils.navactive(req.path)});
 	}
 }
 
@@ -306,7 +287,7 @@ exports.listpostFunc = (req, res) => {
 		var context = {
 			login_success:false,
 			posts:results,
-			arritem: navactive(req.path),
+			arritem: utils.navactive(req.path),
 			searchval: false,
 			option: false,
 			user: req.user
@@ -322,9 +303,6 @@ exports.listpostFunc = (req, res) => {
 
 			return;
 		}
-		// if(err) {
-		// 	return res.status(500).send({error: 'database failure'});
-		// }
 		else if (!req.user) {
 			console.log('사용자 인증 안된 상태임.');
 			res.render('listpost.ejs', context);
@@ -393,7 +371,7 @@ exports.processSearch = (req, res) => {
 		var context = {
 			login_success: false,
 			posts: refinedarr,
-			arritem: navactive(req.path),
+			arritem: utils.navactive(req.path),
 			searchval: value,
 			option: ops
 		};
@@ -546,7 +524,7 @@ exports.editPost = (req, res) => {
 		login_success:true,
 		user: req.user,
 		message: req.flash(),
-		arritem: navactive(req.path),
+		arritem: utils.navactive(req.path),
 		title: title,
 		contents: contents,
 		imageUrl: imageUrl,
@@ -555,7 +533,7 @@ exports.editPost = (req, res) => {
 
 	if (!req.user) {
 		console.log('사용자 인증 안된 상태임.');
-		res.render('editpost.ejs', {login_success:false, message: req.flash('loginRequired'), arritem: navactive(req.path)});
+		res.render('editpost.ejs', {login_success:false, message: req.flash('loginRequired'), arritem: utils.navactive(req.path)});
 	} else {
 		console.log('사용자 인증된 상태임.');
 		res.render('editpost.ejs', context);
@@ -742,21 +720,6 @@ exports.processModifyComment = (req, res) => {
 							var commentTmp = comments;
 							commentTmp.contents = commentContents;
 							newComments.push( commentTmp );
-							// var aNewItem = { contents: commentContents };
-							// database.PostModel.updateOne(comments, {$set: aNewItem}, (err, results) => {
-							// 	if (err) {
-							// 		console.error('수정 중 에러 발생 : ' + err.stack);
-							// 		res.status(500);
-							// 		throw err;
-							// 	}
-
-							// 	if (results) {
-							// 		console.log('수정... 후 reload', results);
-							// 		res.status(200);
-							// 		//res.redirect('/process/showpost/' + postId);
-							// 		res.send(commentContents);
-							// 	}
-							// })
 						}
 						else {
 							newComments.push( comments );
@@ -777,4 +740,3 @@ exports.processModifyComment = (req, res) => {
 }
 
 module.exports.showpostFunc = showpostFunc;
-module.exports.navaactive = navactive;

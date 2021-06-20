@@ -38,3 +38,23 @@ exports.findByParam = function (arr, obj, callback) {
 		return callback('not found')
 	}
 }
+
+//탭별 navactive class 추가
+exports.navactive = function (path) {
+	var itemactive = 'nav-item active', arritem = ['nav-item', 'nav-item', 'nav-item'];
+	switch (path) {
+		case '/':
+			arritem[0] = itemactive;
+			break;
+		case '/addpost' :
+			arritem[1] = itemactive;
+			break;
+		case '/listpost' :
+		case '/process/search' :
+			arritem[2] = itemactive;
+			break;
+		default:
+			break;
+	}
+	return arritem;
+}
