@@ -48,3 +48,9 @@
     left: 0px;
     will-change: transform;
 }
+
+img {
+  width: 350px;
+  height: 250px;
+  object-fit: cover;
+}
