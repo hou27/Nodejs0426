@@ -169,3 +169,5 @@ $(document).on('click', '.deleteComment', (e) => {}) ::: after
 ◆ 코드 정리.  
 ◆ 사진 규격 정함.  
 ◆ chatpage div 정리.  
+
+//실시간 채팅 내역 페이지 이동 시에도 유지, 채팅방마다의 내역 보관해야함.  
