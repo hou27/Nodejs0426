@@ -166,5 +166,6 @@ $(document).on('click', '.deleteComment', (e) => {}) ::: after
 //게시물 사진 규격 정해야함.  --object-fit으로 done.
 
 --06.20  
-◆ 코드 정리  
+◆ 코드 정리.  
 ◆ 사진 규격 정함.  
+◆ chatpage div 정리.  

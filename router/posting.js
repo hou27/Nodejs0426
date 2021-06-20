@@ -7,7 +7,7 @@ var funcs = require('./func/postFunc');
 
 module.exports = (app, router, path) => {
 	
-	console.log("posting router 실행됨.");
+	console.info("posting router 실행됨.");
 	
 	router.get('/addpost', (req, res) => {
 		console.log("/addpost 요청됨.");
