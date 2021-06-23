@@ -29,7 +29,7 @@ CommentSchemaObj.createSchema = (mongoose) => {
 	CommentSchema.path('contents').required(true, '댓글 내용을 입력하셔야 합니다.');
 	
 	CommentSchema.methods = {
-		saveComment: function(callback) {		// 글 저장
+		saveComment: function(callback) {		// 댓글 저장
 			var self = this;
 			this.validate( (err) => {
 				if (err) return callback(err);
