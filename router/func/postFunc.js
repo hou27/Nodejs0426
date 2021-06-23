@@ -73,15 +73,90 @@ var showpostFunc = (req, res) => {
 
 				//res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 
-				//------------동기처리 작업------------
+				// //------------동기처리 작업------------
 
-				//writer id 값을 name으로 변환하는 동기 함수
-				async function writerToName(chdkey, i) {
-					await database.UserModel.findById(results._doc.comments[i].writer, (err, writer) => {
-						chdkey.writerpopulated[i] = writer.name;
-						console.log("해당 writer : ",chdkey.writerpopulated[i]);
+				// //writer id 값을 name으로 변환하는 동기 함수
+				// async function writerToName(chdkey, i) {
+				// 	await database.UserModel.findById(results._doc.comments[i].writer, (err, writer) => {
+				// 		chdkey.writerpopulated[i] = writer.name;
+				// 		console.log("해당 writer : ",chdkey.writerpopulated[i]);
 
-						//return writer.name;
+				// 		//return writer.name;
+				// 	});
+
+				// }
+
+				// //작성 시간, 작성자 값 재설정
+				// async function chkey() {
+
+				// 	var chdkey = {
+				// 		timetostring: [],
+				// 		writerpopulated: []
+				// 	}
+
+				// 	for (var i = 0; i < results._doc.comments.length; i++) {
+
+				// 		var stringcmt = results._doc.comments[i].created_at.toString();
+				// 		//console.log("bf change -> ", stringcmt);
+
+				// 		chdkey.timetostring[i] = stringcmt.split('GMT')[0];
+				// 		//console.log("af change -> ", timetostring[i]);
+				// 		console.log("이름으로 변환할 writer id : ", results._doc.comments[i].writer);
+
+				// 		await writerToName(chdkey, i);
+
+				// 	}
+				// 	return chdkey;
+				// }
+
+				// async function changevalues() {
+
+				// 	var chdkey = await chkey();
+
+				// 	// 동기 과정을 통해 변환된 값들을 뷰 템플레이트를 통해 렌더링 후 전송
+				// 	var context = {
+				// 		posts: results,
+				// 		writer: chdkey.writerpopulated,
+				// 		created: chdkey.timetostring,
+				// 		//Entities: Entities,
+				// 		arritem: ['nav-item', 'nav-item', 'nav-item active'],
+				// 		login_success: true,
+				// 		user: req.user,
+				// 		message: req.flash()
+				// 	};
+
+				// 	function cb(err, html) {
+				// 		console.log('post info :', results);
+				// 		if (err) {
+				// 			console.log('in showpost context : ', context);
+				// 			console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+
+				// 			res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				// 			res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
+				// 			res.write('<p>' + err.stack + '</p>');
+				// 			res.end();
+
+				// 			return;
+				// 		}
+				// 		console.log("댓글 작성자 배열 : ", context.writer);
+				// 		res.send(html);
+				// 	}
+
+				// 	if (!req.user) {
+				// 		console.log('사용자 인증 안된 상태임.');
+				// 		context.login_success = false;
+				// 		res.render('showpost.ejs', context, cb);
+				// 	} else {
+				// 		console.log('사용자 인증된 상태임.');
+				// 		res.render('showpost.ejs', context, cb);
+				// 	}
+				// }
+
+				// changevalues();
+				async function getComment(chdkey, i) {
+					await database.CommentModel.findById(results._doc.comments[i].comment, (err, comment) => {
+						chdkey.getComment.push(comment);
+						console.log("해당 comment : ",chdkey.getComment[i]);
 					});
 
 				}
@@ -91,19 +166,19 @@ var showpostFunc = (req, res) => {
 
 					var chdkey = {
 						timetostring: [],
-						writerpopulated: []
+						getComment: []
 					}
 
 					for (var i = 0; i < results._doc.comments.length; i++) {
 
-						var stringcmt = results._doc.comments[i].created_at.toString();
-						//console.log("bf change -> ", stringcmt);
+						// var stringcmt = results._doc.comments[i].created_at.toString();
+						// //console.log("bf change -> ", stringcmt);
 
-						chdkey.timetostring[i] = stringcmt.split('GMT')[0];
-						//console.log("af change -> ", timetostring[i]);
-						console.log("이름으로 변환할 writer id : ", results._doc.comments[i].writer);
+						// chdkey.timetostring[i] = stringcmt.split('GMT')[0];
+						// //console.log("af change -> ", timetostring[i]);
+						// console.log("이름으로 변환할 writer id : ", results._doc.comments[i].writer);
 
-						await writerToName(chdkey, i);
+						await getComment(chdkey, i);
 
 					}
 					return chdkey;
@@ -116,14 +191,15 @@ var showpostFunc = (req, res) => {
 					// 동기 과정을 통해 변환된 값들을 뷰 템플레이트를 통해 렌더링 후 전송
 					var context = {
 						posts: results,
-						writer: chdkey.writerpopulated,
-						created: chdkey.timetostring,
-						//Entities: Entities,
+						comments: chdkey.getComment,
+						//created: chdkey.timetostring,
 						arritem: ['nav-item', 'nav-item', 'nav-item active'],
 						login_success: true,
 						user: req.user,
 						message: req.flash()
 					};
+					
+					console.log('look at here ::: ',chdkey.getComment);
 
 					function cb(err, html) {
 						console.log('post info :', results);
@@ -138,7 +214,6 @@ var showpostFunc = (req, res) => {
 
 							return;
 						}
-						console.log("댓글 작성자 배열 : ", context.writer);
 						res.send(html);
 					}
 
@@ -394,68 +469,66 @@ exports.processSearch = (req, res) => {
 exports.processAddComment = (req, res) => {
 	console.log("processAddComment in postFunc 요청됨.");
 
-	var paramId = req.body.id;
+	var postId = req.body.id;
 	var paramContents = req.body.contents;
-	var paramWriter = req.body.writer;
+	var paramWriter = req.body.writer
+		,paramWriterN = req.body.writerN;
 
-	console.log('요청 파라미터 : ' + paramId + ', ' + paramContents + ', ' + paramWriter);
+	console.log('요청 파라미터 : ' + postId + ', ' + paramContents + ', ' + paramWriter + ', ' + paramWriterN);
 
 	var database = req.app.get('database');
 
 	// 데이터베이스 객체가 초기화된 경우
 	if (database.db) {
 
-		// 1. 아이디를 이용해 사용자 검색
-		database.PostModel.findByIdAndUpdate(paramId,
-			{'$push': {'comments':{'contents':paramContents, 'writer':paramWriter}}},
+		var comment = new database.CommentModel({
+			postId,
+			contents: paramContents,
+			writer: paramWriter,
+			writerName: paramWriterN,
+			login_success: true,
+			user: req.user,
+			message: req.flash()
+		});
+
+		comment.saveComment( (err, result) => {
+			if (err) {
+				console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
+				res.write('<p>' + err.stack + '</p>');
+				res.end();
+
+				return;
+			}
+			console.log(result);
+			console.log("댓글 추가함.");
+			console.log('댓글 작성 : ' + postId);
+
+			database.PostModel.findByIdAndUpdate(postId,
+			{'$push': {'comments':{'comment':result._id}}},
 			{'new':true, 'upsert':true},
 			(err, results) => {
-				if (err) {
-					console.error('게시판 댓글 추가 중 에러 발생 : ' + err.stack);
-
-					res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-					res.write('<h2>게시판 댓글 추가 중 에러 발생</h2>');
-					res.write('<p>' + err.stack + '</p>');
-					res.end();
-
-					return;
-				}
-
-				console.log("댓글 데이터 추가함.");
-				console.log('댓글 작성 성공, 글 ID : ' + paramId);
-
-				//------------동기처리 작업------------
-
-				//writer id 값을 name으로 변환하는 동기 함수
-				async function writerToName(chdkey, i) {
-					await database.UserModel.findById(results._doc.comments[i].writer, (err, writer) => {
-						chdkey.writerpopulated[i] = writer.name;
-						console.log("해당 writer : ",chdkey.writerpopulated[i]);
-
-						//return writer.name;
+				async function getComment(chdkey, i) {
+					await database.CommentModel.findById(results._doc.comments[i].comment, (err, comment) => {
+						chdkey.getComment.push(comment);
+						console.log("해당 comment : ",chdkey.getComment[i]);
 					});
 
 				}
 
 				//작성 시간, 작성자 값 재설정
 				async function chkey() {
-
+					
+					//불필요해진 듯 추후 처리 예정 21.06.23.
 					var chdkey = {
 						timetostring: [],
-						writerpopulated: []
+						getComment: []
 					}
 
 					for (var i = 0; i < results._doc.comments.length; i++) {
-
-						var stringcmt = results._doc.comments[i].created_at.toString();
-						//console.log("bf change -> ", stringcmt);
-
-						chdkey.timetostring[i] = stringcmt.split('GMT')[0];
-						//console.log("af change -> ", timetostring[i]);
-						console.log("이름으로 변환할 writer id : ", results._doc.comments[i].writer);
-
-						await writerToName(chdkey, i);
-
+						await getComment(chdkey, i);
 					}
 					return chdkey;
 				}
@@ -467,17 +540,20 @@ exports.processAddComment = (req, res) => {
 					// 동기 과정을 통해 변환된 값들을 뷰 템플레이트를 통해 렌더링 후 전송
 					var context = {
 						posts: results,
-						writer: chdkey.writerpopulated,
-						created: chdkey.timetostring,
+						comments: chdkey.getComment,
+						//created: chdkey.timetostring,
+						arritem: ['nav-item', 'nav-item', 'nav-item active'],
 						login_success: true,
 						user: req.user,
 						message: req.flash()
 					};
+					
+					console.log('look at here ::: ',chdkey.getComment);
 
 					function cb(err, html) {
 						console.log('post info :', results);
 						if (err) {
-							console.log('in addcomment context : ', context);
+							console.log('in showpost context : ', context);
 							console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
 
 							res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
@@ -487,7 +563,6 @@ exports.processAddComment = (req, res) => {
 
 							return;
 						}
-						console.log("댓글 작성자 배열 : ", context.writer);
 						res.send(html);
 					}
 
@@ -502,6 +577,7 @@ exports.processAddComment = (req, res) => {
 				}
 
 				changevalues();
+			});
 		});
 
 	} else {
@@ -619,123 +695,134 @@ exports.processRemoveComment = (req, res) => {
 	var database = req.app.get('database');
 
 	if (database.db) {
-		
-		// var post = new database.PostModel({
-		// 	postid,
-		// 	commentid
-		// });
-		
-		// post.removeComment( (err, results) => {
-		// 	// 에러 발생 시, 클라이언트로 에러 전송
-		// 	if (err) {
-		// 		console.error('삭제 중 에러 발생 : ' + err.stack);
-		// 		res.status(500);
-		// 		throw err;
-		// 	}
-		// 	// 결과 발생 시, 데이터 전송
-		// 	if (results) {
-		// 		console.log('삭제... 후 ui 제거', results);
-		// 		res.status(200).send({ message : '게시글 삭제 성공' });
-		// 	}
-		// });
-		
-		database.PostModel.update({ _id: postid }, {$pull: {comments: {_id: commentid}}}, (err, results) => {
-			// 에러 발생 시, 클라이언트로 에러 전송
-			if (err) {
-				console.error('삭제 중 에러 발생 : ' + err.stack);
-				res.status(500);
-				throw err;
-			}
-			// 결과 발생 시, 데이터 전송
-			if (results) {
-				console.log('삭제... 후 ui 제거', results);
-				res.status(200).send({ message : '게시글 삭제 성공' });
-			}
+		database.PostModel.findOne({_id: postid},{comments:{"$elemMatch":{_id: commentid}}}, (err, results) => {
+			var commentId = results.comments[0].comment;
+			database.CommentModel.remove({_id: commentId}, (err1, results1) => {
+				if(err1) {
+					console.error('삭제 중 에러 발생 : ' + err.stack);
+					res.status(500);
+					throw err;
+				}
+				else {
+					database.PostModel.update({ _id: postid }, {$pull: {comments: {_id: commentid}}}, (err, results) => {
+						// 에러 발생 시, 클라이언트로 에러 전송
+						if (err) {
+							console.error('삭제 중 에러 발생 : ' + err.stack);
+							res.status(500);
+							throw err;
+						}
+						// 결과 발생 시, 데이터 전송
+						if (results) {
+							console.log('삭제... 후 ui 제거', results);
+							res.status(200).send({ message : '게시글 삭제 성공' });
+						}
+					});
+				}
+			});
 		});
+		
 	}
 }
 
 exports.modifyComment = (req, res) => {
 	console.log("modifyComment in postFunc 요청됨.");
 	var commentContents = req.body.contents
+		, commentId = req.body.commentId
 		, location = req.body.location;
 
-	console.log("선택한 Comment에 대한 정보 : " + commentContents + " " + location);
+	console.log("선택한 Comment에 대한 정보 : " + commentContents + " " + commentId);
 
-	res.render('modifyComment.ejs', {commentContents, location});
+	res.render('modifyComment.ejs', {commentContents, commentId, location});
 }
 
 exports.processModifyComment = (req, res) => {
 	console.log("processModifyComment in postFunc 요청됨.");
-	var postId = req.body._id
-		, commentId = req.body.commentid
-		, commentContents = req.body.contents
-		, commentCreated = req.body.created
-		, commentWriter = req.body.writer;
+	var postId = req.body.postId
+		, commentId = req.body.commentId
+		, commentContents = req.body.contents;
+		// , commentCreated = req.body.created
+		// , commentWriter = req.body.writer;
 
 	var newComments = [];
 
 
-	console.log("제출한 Comment에 대한 정보 : " + postId + ', ' + commentId + ', ' + commentContents + ', ' + commentCreated + ', ' + commentWriter);
+	console.log("제출한 Comment에 대한 정보 : " + postId + ', ' + commentId + ', ' + commentContents);
 
 	var database = req.app.get('database');
 
 	if (database.db) {
-		function cb(newComments) {
-			console.log('수정된 댓글 배열 ::: ', newComments);
-			database.PostModel.updateOne({ _id: postId }, {$set: {comments: newComments}}, (err, results) => {
-				if (err) {
-					console.error('수정 중 에러 발생 : ' + err.stack);
-					res.status(500);
-					throw err;
-				}
+		database.CommentModel.updateOne({ _id: commentId }, {$set: {contents: commentContents}}, (err, results) => {
+			if (err) {
+				console.error('수정 중 에러 발생 : ' + err.stack);
+				res.status(500);
+				throw err;
+			}
+			
+			if (results) {
+				console.log('수정... 후 reload', results);
+				res.status(200);
+				
+				res.send(commentContents);
+			}
+		});
+				
+		
+		//----------db구조 갈기 전 댓글 수정 코드 --> nestedComments 수정 시 활용해볼 예정
+		// function cb(newComments) {
+		// 	console.log('수정된 댓글 배열 ::: ', newComments);
+		// 	database.CommentModel.updateOne({ _id: commentId }, {$set: {nestedComments: newComments}}, (err, results) => {
+		// 		if (err) {
+		// 			console.error('수정 중 에러 발생 : ' + err.stack);
+		// 			res.status(500);
+		// 			throw err;
+		// 		}
 
-				if (results) {
-					console.log('수정... 후 reload', results);
-					res.status(200);
-					//res.redirect('/process/showpost/' + postId);
-					res.send(commentContents);
-				}
-			})
-		}
+		// 		if (results) {
+		// 			console.log('수정... 후 reload', results);
+		// 			res.status(200);
+		// 			//res.redirect('/process/showpost/' + postId);
+		// 			res.send(commentContents);
+		// 		}
+		// 	})
+		// }
 
 
-		async function newCommentArray() {
-			await database.PostModel.find({ _id: postId }, (err, results) => {
-				// 에러 발생 시, 클라이언트로 에러 전송
-				if (err) {
-					console.error('수정 중 에러 발생 : ' + err.stack);
-					res.status(500);
-					throw err;
-				}
-				// 결과 발생 시, 데이터 전송
-				if (results) {
-					console.log('find 후 reload', results);
+		// async function newCommentArray() {
+		// 	await database.PostModel.find({ _id: postId }, (err, results) => {
+		// 		// 에러 발생 시, 클라이언트로 에러 전송
+		// 		if (err) {
+		// 			console.error('수정 중 에러 발생 : ' + err.stack);
+		// 			res.status(500);
+		// 			throw err;
+		// 		}
+		// 		// 결과 발생 시, 데이터 전송
+		// 		if (results) {
+		// 			console.log('find 후 reload', results);
 
-					results[0].comments.forEach( (comments) => {
-						console.log(comments);
+		// 			results[0].comments.forEach( (comments) => {
+		// 				console.log(comments);
 
-						if(comments._id == commentId) {
-							console.log('gotit');
-							var commentTmp = comments;
-							commentTmp.contents = commentContents;
-							newComments.push( commentTmp );
-						}
-						else {
-							newComments.push( comments );
-						}
-					});
-				}
-			});
+		// 				if(comments._id == commentId) {
+		// 					console.log('gotit');
+		// 					var commentTmp = comments;
+		// 					commentTmp.contents = commentContents;
+		// 					newComments.push( commentTmp );
+		// 				}
+		// 				else {
+		// 					newComments.push( comments );
+		// 				}
+		// 			});
+		// 		}
+		// 	});
 
-			return newComments;
-		}
-		async function modifyCommentProcess() {
-			var newComments = await newCommentArray();
-			cb(newComments);
-		}
+		// 	return newComments;
+		// }
+		// async function modifyCommentProcess() {
+		// 	var newComments = await newCommentArray();
+		// 	cb(newComments);
+		// }
 
-		modifyCommentProcess();
+		// modifyCommentProcess();
 	}
 }
 

@@ -18,9 +18,7 @@ SchemaObj.createSchema = (mongoose) => {
 	    contents: {type: String, trim: true, 'default':''},
 	    writer: {type: mongoose.Schema.ObjectId, ref: 'users1'},
 	    comments: [{		// 댓글
-	    	contents: {type: String, trim:true, 'default': ''},
-	    	writer: {type: String, trim:true, 'default': ''},
-	    	created_at: {type: Date, 'default': Date.now}
+	    	comment: {type: mongoose.Schema.ObjectId, ref: 'comments'}
 	    }],
 		imageUrl: {type: String, 'default':''},					//local의 image주소
 	    tags: {type: [], 'default': ''},

@@ -12,7 +12,7 @@ function addComment() {
 		$.ajax({
 			method: "POST",
 			url: "/process/addcomment",
-			data: {id: formData[2].value, contents: formData[0].value, writer: formData[1].value}
+			data: {id: formData[3].value, contents: formData[0].value, writer: formData[1].value, writerN: formData[2].value}
 		}).done( (results) => {
 			console.log('call view');
 			// Contents 영역 제거
@@ -93,12 +93,13 @@ $(document).on('click', '.deleteComment', (e) => {
 // 댓글 수정 기능
 $(document).on('click', '.editComment', (e) => {
 	console.log(e.target.dataset.id);
-	var i = e.target.dataset.id
+	var i = e.target.name;
+	var commentId = e.target.dataset.id
 		, contents = $('.commentContents.contents')[i].innerText;
 	$.ajax({
 		method : 'POST',
 		url : '/modifyComment',
-		data : { contents, location: i }
+		data : { contents, commentId, location: i }
 	}).done( (results) => {
 		console.log('modify comment');
 		//$(".commentContents.contents")[1].innerText
@@ -112,16 +113,18 @@ $(document).on('click', '.editComment', (e) => {
 // 댓글 수정 기능 (submit)
 $(document).on('click', '#modifyCommentBtn', (e) => {
 	console.log(e.target.dataset.id);
-	var i = e.target.dataset.id
-		, _id = $('#hiddenPostId')[0].value
-		, commentid = $('.comment')[i].id
-		, contents = $('.commentContents.modifingcontents')[0].value
-		, created = $('.commentContents.created')[i].innerText
-		, writer = $('.commentContents.writer')[i].innerText;
+	
+	var i = e.target.parentElement.parentElement.children[3].children[1].children[0].name;
+	var commentId = e.target.dataset.id
+		, postId = $('#hiddenPostId')[0].value
+		//, commentid = $('.comment')[i].id
+		, contents = $('.commentContents.modifingcontents')[0].value;
+		// , created = $('.commentContents.created')[i].innerText
+		// , writer = $('.commentContents.writer')[i].innerText;
 	$.ajax({
 		method : 'POST',
 		url : '/process/modifyComment',
-		data : { _id, commentid, contents, created, writer }
+		data : { postId, commentId, contents }
 	}).done( (results) => {
 		console.log('modify comment submit');
 		// Comment 영역 교체
