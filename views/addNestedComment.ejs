@@ -1,10 +1,9 @@
 <form id='addNestedComment'>
 	<div class="field">
-		<label>대댓글 달기</label>
 		<br><input type="text" id='nestedComment' name="contents" placeholder="enter your comment" onKeyPress='event.keyCode == 13 && addNestedComment();'>
 	</div>
 	<input hidden type="text" name="writer" value="<%= user._id %>">
 	<input hidden type="text" name="writerN" value="<%= user.name %>">
 	<input hidden type="text" name="commentId" value="<%= commentId %>">
-	<br><input class="btn btn-outline-success btn-sm" id='addNCbtn' value="Enter" onclick='addNestedComment();' disabled/>
+	<input class="btn btn-outline-success btn-sm" id='addNCbtn' value="Enter" onclick='addNestedComment();' disabled/>
 </form>
