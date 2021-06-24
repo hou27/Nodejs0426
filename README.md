@@ -195,3 +195,4 @@ db.comments.update({'_id':ObjectId("60d3016937c602053211bb42")},{$pull:{nestedCo
 ```
 
 //한번에 하나의 댓글만 수정 ui 띄울 수 있도록 해야함.  
+//대댓글을 펼치고 접을 수 있도록 해야함.  
