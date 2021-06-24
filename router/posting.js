@@ -45,12 +45,6 @@ module.exports = (app, router, path) => {
 		funcs.showpostFunc(req, res);
 	})
 	
-	router.post('/process/addcomment', (req, res) => {
-		console.log("/process/addcomment 요청됨.");
-		
-		funcs.processAddComment(req, res);
-	});
-	
 	router.post('/edit/:id', (req, res) => {
 		console.log("/edit 요청됨.");
 		
@@ -68,6 +62,12 @@ module.exports = (app, router, path) => {
 		console.log("/process/delete 요청됨.");
 		
 		funcs.processDeletePost(req, res);
+	});
+	
+	router.post('/process/addcomment', (req, res) => {
+		console.log("/process/addcomment 요청됨.");
+		
+		funcs.processAddComment(req, res);
 	});
 	
 	//댓글 삭제, 수정 기능 구현
@@ -89,4 +89,15 @@ module.exports = (app, router, path) => {
 		funcs.processModifyComment(req, res);
 	});
 	
+	router.post('/addNestedComment',  (req, res) => {
+		console.log("addNestedComment 요청됨.");
+		
+		funcs.addNestedComment(req, res);
+	})
+	
+	router.post('/process/addNestedComment',  (req, res) => {
+		console.log("/process/addNestedComment 요청됨.");
+		
+		funcs.processAddNestedComment(req, res);
+	})
 };

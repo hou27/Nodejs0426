@@ -5,6 +5,11 @@ $("#comment").on("keyup", () => {
 	$("#addbtn").attr("disabled", flag);
 });
 
+$("#nestedComment").on("keyup", () => {
+	var flag = true;
+	flag = $("#nestedComment").val().length > 0 ? false : true;
+	$("#addNCbtn").attr("disabled", flag);
+});
 
 function addComment() {
 	if($("#comment").val().length > 0) {
@@ -12,7 +17,7 @@ function addComment() {
 		$.ajax({
 			method: "POST",
 			url: "/process/addcomment",
-			data: {id: formData[3].value, contents: formData[0].value, writer: formData[1].value, writerN: formData[2].value}
+			data: {postId: formData[3].value, contents: formData[0].value, writer: formData[1].value, writerName: formData[2].value}
 		}).done( (results) => {
 			console.log('call view');
 			// Contents 영역 제거
@@ -24,6 +29,26 @@ function addComment() {
 		});
 	}
 }
+
+function addNestedComment() {
+	if($("#nestedComment").val().length > 0) {
+		var formData = $('#addNestedComment').serializeArray(); // serialize 사용 -- 객체 형식으로
+		$.ajax({
+			method: "POST",
+			url: "/process/addNestedComment",
+			data: {commentPId: formData[3].value, contents: formData[0].value, writer: formData[1].value, writerName: formData[2].value}
+		}).done( (results) => {
+			console.log('nestedComment added');
+			// // Contents 영역 제거
+			// $('.comments').children().remove();
+			// // Contents 영역 교체
+			// $('.comments').html(results);
+		}).fail( (xhr, textStatus, errThrown) => {
+			console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+		});
+	}
+}
+
 
 $('#edit').click( (e) => {
 	var postNum = e.target.dataset.id;
@@ -134,4 +159,22 @@ $(document).on('click', '#modifyCommentBtn', (e) => {
 	});
 })
 
-
+// 대댓글 추가 기능
+$(document).on('click', '.addNestedComment', (e) => {
+	console.log(e.target.dataset.id);
+	var i = e.target.name;
+	var commentId = e.target.dataset.id;
+	$.ajax({
+		method : 'POST',
+		url : '/addNestedComment',
+		data : { commentId, location: i }
+	}).done( (results) => {
+		console.log('add nested comment');
+		//$(".commentContents.contents")[1].innerText
+		// Comment 대댓글 ui 추가
+		var $commentTag = $(results);
+		$('.comment')[i].append($commentTag[0]);
+	}).fail( (xhr, textStatus, errThrown) => {
+		console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+	});
+})

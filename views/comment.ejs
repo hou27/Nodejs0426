@@ -1,32 +1,49 @@
-<% if (login_success) { %>
-		<div class="comments">
-			<h4>댓글<span class="count badge badge-pill badge-info" id='commentCnt'><span id="commentCount65_0"></span><%=posts._doc.comments.length %></span></h4>
-			<div class="comment-list">
-				<% for (var i = 0; i < posts._doc.comments.length; i++) { %>
-					<div class="comment" id='<%= posts._doc.comments[i]._id %>'>
+<div class="comments">
+	<h4>댓글<span class="count badge badge-pill badge-info" id='commentCnt'><span id="commentCount65_0"></span><%=posts._doc.comments.length %></span></h4>
+	<div class="comment-list">
+		<% for (var i = 0; i < posts._doc.comments.length; i++) { %>
+			<div class="comment" id='<%= posts._doc.comments[i]._id %>'>
+				<h6 class="commentContents writer" style="font-size: small;">
+					<%=comments[i].writerName %>
+				</h6>
+				<h4 class="commentContents contents">
+					<%=comments[i].contents %>
+				</h4>
+				<h6 class="commentContents created" style="font-size: x-small;">
+					<%=comments[i].created_at %>
+				</h6>
+				<div class="btn-group dropleft ops">
+					<button type="button" class="btn btn-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					⋮
+					</button>
+					<div class="dropdown-menu">
+						<button class="dropdown-item addNestedComment" type="button" name='<%= i %>' data-id='<%=comments[i]._id %>'>답글</button>
+						<button class="dropdown-item editComment" type="button" name='<%= i %>' data-id='<%=comments[i]._id %>'>수정</button>
+						<button class="dropdown-item deleteComment" type="button"
+								data-id='<%= posts._doc.comments[i]._id %>'>삭제</button>
+					</div>
+				</div>
+			</div>
+			<% if(comments[i].nestedComments.length > 0) { %>
+				<% var nestedCommentLength = comments[i].nestedComments.length; %>
+				<% for (var j = 0; j < nestedCommentLength; j++) { %>
+					<div class="nestedComment" id='<%=comments[i].nestedComments[j]._id %>'>
 						<h6 class="commentContents writer" style="font-size: small;">
-							<%=comments[i].writerName %>
+							<%=comments[i].nestedComments[j].writerName %>
 						</h6>
 						<h4 class="commentContents contents">
-							<%=comments[i].contents %>
+							<%=comments[i].nestedComments[j].contents %>
 						</h4>
 						<h6 class="commentContents created" style="font-size: x-small;">
-							<%=comments[i].created_at %>
+							<%=comments[i].nestedComments[j].created_at %>
 						</h6>
-						<div class="btn-group dropleft ops">
-							<button type="button" class="btn btn-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							⋮
-							</button>
-							<div class="dropdown-menu">
-								<button class="dropdown-item editComment" type="button" name='<%= i %>' data-id='<%=comments[i]._id %>'>edit</button>
-								<button class="dropdown-item deleteComment" type="button"
-										data-id='<%= posts._doc.comments[i]._id %>'>delete</button>
-							</div>
-						</div>
 					</div>
 				<% } %>
-			</div>
-			<br>
+			<% } %>
+		<% } %>
+	</div>
+	<br>
+		<% if (login_success) { %>
 			<form id='addcomment'>
 				<div class="field">
 					<label>댓글 달기</label>
@@ -37,8 +54,9 @@
 				<input hidden type="text" name="id" value="<%= posts._doc._id %>">
 				<br><input class="btn btn-outline-success btn-sm" id='addbtn' value="Enter" onclick='addComment();' disabled/>
 			</form>
-		</div>
+		<% } else { %>
+			<div class="alert alert-warning">댓글 작성은 로그인 하신 후 이용할 수 있는 기능입니다.</div>
+		<% } %>
+</div>
 
-	<% } else { %>
-		<div class="alert alert-warning">댓글 조회 및 작성은 로그인 하신 후 이용할 수 있는 기능입니다.</div>
-	<% } %>
+	

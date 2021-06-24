@@ -12,6 +12,21 @@
     border-radius: .25rem;
 }
 
+.nestedComment {
+	display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: #f7fff817;
+    border: 1px solid rgb(134 208 107 / 48%);
+    color: #363636;
+    font-size: 15px;
+    font-weight: 300;
+    margin-top: 10px;
+    width: calc(64%);
+    border-radius: .25rem;
+    margin-left: 5%;	
+}
+
 .commentContents {
 	
 }

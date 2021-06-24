@@ -19,6 +19,7 @@ CommentSchemaObj.createSchema = (mongoose) => {
 	    nestedComments: [{	// 댓글
 	    	contents: {type: String, trim:true, 'default': ''},
 	    	writer: {type: String, trim:true, 'default': ''},
+			writerName: {type: String, trim:true, 'default': ''},
 	    	created_at: {type: Date, 'default': Date.now}
 	    }],
 	    created_at: {type: Date, index: {unique: false}, 'default': Date.now},
