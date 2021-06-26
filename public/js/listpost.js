@@ -54,7 +54,7 @@ window.onscroll = (e) => {
 				method : 'GET',
 				url : '/listpost'
 			}).done( (results) => {
-				console.log(results);
+				//console.log(results);
 				console.log('load post exec');
 
 			}).fail( (xhr, textStatus, errThrown) => {

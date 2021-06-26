@@ -18,10 +18,15 @@
 					⋮
 					</button>
 					<div class="dropdown-menu">
-						<button class="dropdown-item addNestedComment" type="button" name='<%= i %>' data-id='<%=comments[i]._id %>'>답글</button>
-						<button class="dropdown-item editComment" type="button" name='<%= i %>' data-id='<%=comments[i]._id %>'>수정</button>
+						<% if (login_success) { %>
+						<button class="dropdown-item addNestedComment" type="button" 
+								name='<%= i %>' data-id='<%=comments[i]._id %>'>답글</button>
+						<button class="dropdown-item editComment" type="button" 
+								name='<%= i %>' data-id='<%=comments[i]._id %>'>수정</button>
 						<button class="dropdown-item deleteComment" type="button"
 								data-id='<%= posts._doc.comments[i]._id %>'>삭제</button>
+						<% } %>
+						<button class="dropdown-item reportComment" type="button">신고</button>
 					</div>
 				</div>
 				<% if(comments[i].nestedComments.length > 0) { %>
