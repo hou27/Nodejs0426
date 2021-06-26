@@ -32,8 +32,8 @@
 							<span class="num_nestedComment"><%=comments[i].nestedComments.length %></span>
 						</button>
 					</span>
-					<div class="nestedComment" style="display: none;">
-					<% nestedCommentLocation += 2; %>
+					<div class="wrap_nestedComment" style="display: none;">
+					<% nestedCommentLocation++; %>
 					<% for (var j = 0; j < nestedCommentLength; j++) { %>
 						<div class="nestedComment" id='<%=comments[i].nestedComments[j]._id %>'>
 							<h6 class="commentContents writer" style="font-size: small;">

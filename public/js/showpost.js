@@ -183,9 +183,9 @@ $(document).on('click', '.addNestedComment', (e) => {
 // 대댓글 열고닫기 기능
 $(document).on('click', '.open_nestedComment', (e) => {
 	var location = e.target.parentElement.dataset.id;
-	if($(".nestedComment")[location].style.display == 'none'){
-		$(".nestedComment")[location].style.display = 'block';
+	if($(".wrap_nestedComment")[location].style.display == 'none'){
+		$(".wrap_nestedComment")[location].style.display = 'block';
 	}else{
-		$(".nestedComment")[location].style.display = 'none';
+		$(".wrap_nestedComment")[location].style.display = 'none';
 	}
 })
