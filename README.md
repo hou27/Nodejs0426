@@ -213,7 +213,7 @@ In the case where you want to add more fields in the object and it's not working
 const car = model.findOne({_id:'1'})
 car.someNewProp = true // this will not work
 ```
-If later you set the property to the object car and you didn't specify in the Model Schema before then Mongoose model is validating if this field exists and if it's the valid type. If the validation fails then the property will not be set.  
+>>>If later you set the property to the object car and you didn't specify in the Model Schema before then Mongoose model is validating if this field exists and if it's the valid type. If the validation fails then the property will not be set.  
 
 * 대댓글 관련 기능 및 ui 추가 / 수정  
 
