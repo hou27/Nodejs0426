@@ -216,3 +216,5 @@ car.someNewProp = true // this will not work
 If later you set the property to the object car and you didn't specify in the Model Schema before then Mongoose model is validating if this field exists and if it's the valid type. If the validation fails then the property will not be set.  
 
 * 대댓글 관련 기능 및 ui 추가 / 수정  
+
+//대댓글 추가 시 대댓글 닫히는 부분 처리해야함.  

@@ -1,6 +1,7 @@
 <div class="comments">
 	<h4>댓글<span class="count badge badge-pill badge-info" id='commentCnt'><span id="commentCount65_0"></span><%=posts._doc.comments.length %></span></h4>
 	<div class="comment-list">
+		<% var nestedCommentLocation = 0 %>
 		<% for (var i = 0; i < posts._doc.comments.length; i++) { %>
 			<div class="comment" id='<%= posts._doc.comments[i]._id %>'>
 				<h6 class="commentContents writer" style="font-size: small;">
@@ -24,14 +25,15 @@
 					</div>
 				</div>
 				<% if(comments[i].nestedComments.length > 0) { %>
-					<span class="wrap_nestedComment_btn" data-id='<%=i %>'>
-						<button type="button" class="nestedComment_btn">
-							<span>대댓글</span>
+					<% var nestedCommentLength = comments[i].nestedComments.length; %>
+					<span class="wrap_nestedComment_btn">
+						<button type="button" class="nestedComment_btn" data-id='<%=nestedCommentLocation %>'>
+							<span class='open_nestedComment'>대댓글</span>
 							<span class="num_nestedComment"><%=comments[i].nestedComments.length %></span>
 						</button>
 					</span>
 					<div class="nestedComment" style="display: none;">
-					<% var nestedCommentLength = comments[i].nestedComments.length; %>
+					<% nestedCommentLocation += 2; %>
 					<% for (var j = 0; j < nestedCommentLength; j++) { %>
 						<div class="nestedComment" id='<%=comments[i].nestedComments[j]._id %>'>
 							<h6 class="commentContents writer" style="font-size: small;">
