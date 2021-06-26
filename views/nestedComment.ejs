@@ -23,32 +23,23 @@
 								data-id='<%= posts._doc.comments[i]._id %>'>삭제</button>
 					</div>
 				</div>
-				<% if(comments[i].nestedComments.length > 0) { %>
-					<span class="wrap_nestedComment_btn" data-id='<%=i %>'>
-						<button type="button" class="nestedComment_btn">
-							<span>대댓글</span>
-							<span class="num_nestedComment"><%=comments[i].nestedComments.length %></span>
-						</button>
-					</span>
-					<div class="nestedComment" style="display: none;">
-					<% var nestedCommentLength = comments[i].nestedComments.length; %>
-					<% for (var j = 0; j < nestedCommentLength; j++) { %>
-						<div class="nestedComment" id='<%=comments[i].nestedComments[j]._id %>'>
-							<h6 class="commentContents writer" style="font-size: small;">
-								<%=comments[i].nestedComments[j].writerName %>
-							</h6>
-							<h4 class="commentContents contents">
-								<%=comments[i].nestedComments[j].contents %>
-							</h4>
-							<h6 class="commentContents created" style="font-size: x-small;">
-								<%=comments[i].nestedComments[j].created_at %>
-							</h6>
-						</div>
-					<% } %>
+			</div>
+			<% if(comments[i].nestedComments.length > 0) { %>
+				<% var nestedCommentLength = comments[i].nestedComments.length; %>
+				<% for (var j = 0; j < nestedCommentLength; j++) { %>
+					<div class="nestedComment" id='<%=comments[i].nestedComments[j]._id %>'>
+						<h6 class="commentContents writer" style="font-size: small;">
+							<%=comments[i].nestedComments[j].writerName %>
+						</h6>
+						<h4 class="commentContents contents">
+							<%=comments[i].nestedComments[j].contents %>
+						</h4>
+						<h6 class="commentContents created" style="font-size: x-small;">
+							<%=comments[i].nestedComments[j].created_at %>
+						</h6>
 					</div>
 				<% } %>
-			</div>
-			
+			<% } %>
 		<% } %>
 	</div>
 	<br>
@@ -67,5 +58,3 @@
 			<div class="alert alert-warning">댓글 작성은 로그인 하신 후 이용할 수 있는 기능입니다.</div>
 		<% } %>
 </div>
-
-	

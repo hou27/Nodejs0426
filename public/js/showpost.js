@@ -33,16 +33,17 @@ function addComment() {
 function addNestedComment() {
 	if($("#nestedComment").val().length > 0) {
 		var formData = $('#addNestedComment').serializeArray(); // serialize 사용 -- 객체 형식으로
+		var postId = $('#hiddenPostId')[0].value;
 		$.ajax({
 			method: "POST",
 			url: "/process/addNestedComment",
-			data: {commentPId: formData[3].value, contents: formData[0].value, writer: formData[1].value, writerName: formData[2].value}
+			data: {postId, commentPId: formData[3].value, contents: formData[0].value, writer: formData[1].value, writerName: formData[2].value}
 		}).done( (results) => {
 			console.log('nestedComment added');
-			// // Contents 영역 제거
-			// $('.comments').children().remove();
-			// // Contents 영역 교체
-			// $('.comments').html(results);
+			// Contents 영역 제거
+			$('.comments').children().remove();
+			// Contents 영역 교체
+			$('.comments').html(results);
 		}).fail( (xhr, textStatus, errThrown) => {
 			console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
 		});
@@ -177,4 +178,14 @@ $(document).on('click', '.addNestedComment', (e) => {
 	}).fail( (xhr, textStatus, errThrown) => {
 		console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
 	});
+})
+
+// 대댓글 열고닫기 기능
+$(document).on('click', '.nestedComment_btn', (e) => {
+	console.log(e.target.parentElement.dataset.id);
+	if($(".nestedComment")[0].style.display == 'none'){
+		$(".nestedComment")[0].style.display = 'block';
+	}else{
+		$(".nestedComment")[0].style.display = 'none';
+	}
 })

@@ -247,6 +247,79 @@ var showpostFunc = (req, res) => {
 	}
 }
 
+// 동기과정으로 comment 처리하는 함수
+var getCommentFunc = (req, res, database, results) => {
+	async function getComment(chdkey, i) {
+		await database.CommentModel.findById(results._doc.comments[i].comment, (err, comment) => {
+			chdkey.getComment.push(comment);
+			console.log("해당 comment : ",chdkey.getComment[i]);
+		});
+
+	}
+
+
+	async function chkey() {
+
+		//불필요해진 듯 추후 처리 예정 21.06.23.
+		var chdkey = {
+			//timetostring: [],
+			getComment: []
+		}
+
+		var commentLength = results._doc.comments.length;
+
+		for (var i = 0; i < commentLength; i++) {
+			await getComment(chdkey, i);
+		}
+		return chdkey;
+	}
+
+	async function changevalues() {
+
+		var chdkey = await chkey();
+
+		// 동기 과정을 통해 변환된 값들을 뷰 템플레이트를 통해 렌더링 후 전송
+		var context = {
+			posts: results,
+			comments: chdkey.getComment,
+			//created: chdkey.timetostring,
+			arritem: ['nav-item', 'nav-item', 'nav-item active'],
+			login_success: true,
+			user: req.user,
+			message: req.flash()
+		};
+
+		console.log('look at here ::: ',chdkey.getComment);
+
+		function cb(err, html) {
+			console.log('post info :', results);
+			if (err) {
+				console.log('in showpost context : ', context);
+				console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
+				res.write('<p>' + err.stack + '</p>');
+				res.end();
+
+				return;
+			}
+			res.send(html);
+		}
+
+		if (!req.user) {
+			console.log('사용자 인증 안된 상태임.');
+			context.login_success = false;
+			res.render('comment.ejs', context, cb);
+		} else {
+			console.log('사용자 인증된 상태임.');
+			res.render('comment.ejs', context, cb);
+		}
+	}
+
+	changevalues();
+}
+
 exports.addPost = (req, res) => {
 	console.log("addPost in postFunc 요청됨.");
 
@@ -450,9 +523,13 @@ exports.processSearch = (req, res) => {
 
 		searchprocess();
 
+		//post reverse
+		var postArr = refinedarr;
+		postArr.reverse();
+		
 		var context = {
 			login_success: false,
-			posts: refinedarr,
+			posts: postArr,
 			arritem: utils.navactive(req.path),
 			searchval: value,
 			option: ops
@@ -616,75 +693,9 @@ exports.processAddComment = (req, res) => {
 			{'$push': {'comments':{'comment':result._id}}},
 			{'new':true, 'upsert':true},
 			(err, results) => {
-				async function getComment(chdkey, i) {
-					await database.CommentModel.findById(results._doc.comments[i].comment, (err, comment) => {
-						chdkey.getComment.push(comment);
-						console.log("해당 comment : ",chdkey.getComment[i]);
-					});
-
-				}
-
-				
-				async function chkey() {
-					
-					//불필요해진 듯 추후 처리 예정 21.06.23.
-					var chdkey = {
-						//timetostring: [],
-						getComment: []
-					}
-					
-					var commentLength = results._doc.comments.length;
-					
-					for (var i = 0; i < commentLength; i++) {
-						await getComment(chdkey, i);
-					}
-					return chdkey;
-				}
-
-				async function changevalues() {
-
-					var chdkey = await chkey();
-
-					// 동기 과정을 통해 변환된 값들을 뷰 템플레이트를 통해 렌더링 후 전송
-					var context = {
-						posts: results,
-						comments: chdkey.getComment,
-						//created: chdkey.timetostring,
-						arritem: ['nav-item', 'nav-item', 'nav-item active'],
-						login_success: true,
-						user: req.user,
-						message: req.flash()
-					};
-					
-					console.log('look at here ::: ',chdkey.getComment);
-
-					function cb(err, html) {
-						console.log('post info :', results);
-						if (err) {
-							console.log('in showpost context : ', context);
-							console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
-
-							res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-							res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
-							res.write('<p>' + err.stack + '</p>');
-							res.end();
-
-							return;
-						}
-						res.send(html);
-					}
-
-					if (!req.user) {
-						console.log('사용자 인증 안된 상태임.');
-						context.login_success = false;
-						res.render('comment.ejs', context, cb);
-					} else {
-						console.log('사용자 인증된 상태임.');
-						res.render('comment.ejs', context, cb);
-					}
-				}
-
-				changevalues();
+				// console.log('look at here ^^^^^::: ', results);
+				// console.log('뭔데 이건 ^^^^^::: ', results._doc);	// find method doesn't return _doc object but _doc exist on the mongoose object.
+				getCommentFunc(req, res, database, results);
 			});
 		});
 
@@ -706,14 +717,14 @@ exports.processRemoveComment = (req, res) => {
 	if (database.db) {
 		database.PostModel.findOne({_id: postid},{comments:{"$elemMatch":{_id: commentid}}}, (err, results) => {
 			var commentId = results.comments[0].comment;
-			database.CommentModel.remove({_id: commentId}, (err1, results1) => {
+			database.CommentModel.remove({_id: commentId}, (err1, results1) => {	// 1. CommentModel의 값 먼저 제거
 				if(err1) {
 					console.error('삭제 중 에러 발생 : ' + err.stack);
 					res.status(500);
 					throw err;
 				}
 				else {
-					database.PostModel.update({ _id: postid }, {$pull: {comments: {_id: commentid}}}, (err, results) => {
+					database.PostModel.update({ _id: postid }, {$pull: {comments: {_id: commentid}}}, (err, results) => {	// 2. PostModel 값 제거
 						// 에러 발생 시, 클라이언트로 에러 전송
 						if (err) {
 							console.error('삭제 중 에러 발생 : ' + err.stack);
@@ -789,12 +800,13 @@ exports.addNestedComment = (req, res) => {
 
 exports.processAddNestedComment = (req, res) => {
 	console.log("processAddNestedComment in postFunc 요청됨.");
-	var commentPId = req.body.commentPId
+	var postId = req.body.postId
+		, commentPId = req.body.commentPId
 		, contents = req.body.contents
 		, writer = req.body.writer
 		, writerName = req.body.writerName;
 
-	console.log("대댓글에 대한 정보 : " + commentPId + " " + contents + " " + writer + " " + writerName);
+	console.log("대댓글에 대한 정보 : " + postId + " " + commentPId + " " + contents + " " + writer + " " + writerName);
 
 	var nestedComment = {
 		contents,
@@ -819,6 +831,10 @@ exports.processAddNestedComment = (req, res) => {
 				if (results) {
 					console.log('대댓글 추가 후 reload', results);
 					res.status(200);
+					
+					database.PostModel.findOne({ _id: postId}, (err, results) => {
+						getCommentFunc(req, res, database, results);
+					})
 				}
 		});
 	}

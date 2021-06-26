@@ -9,7 +9,7 @@
     font-weight: 400;
     margin-top: 10px;
     width: calc(69% - 1px);
-    border-radius: .25rem;
+    border-radius: 42px;
 }
 
 .nestedComment {
@@ -17,7 +17,7 @@
     flex-direction: column;
     position: relative;
     background-color: #f7fff817;
-    border: 1px solid rgb(134 208 107 / 48%);
+    /*border: 1px solid rgb(134 208 107 / 48%);*/
     color: #363636;
     font-size: 15px;
     font-weight: 300;
@@ -29,6 +29,22 @@
 
 .commentContents {
 	
+}
+
+.wrap_nestedComment_btn {
+	width: calc(20%);
+}
+
+.nestedComment_btn {
+    float: left;
+    margin-left: 8px;
+    padding: 10px 20px 8px 19px;
+    border: solid 1px #bbb;
+    font-size: 13px;
+    border-radius: 42px;
+    background-color: #fff;
+    font-family: "Noto Sans Light","Malgun Gothic",sans-serif;
+    color: #666;
 }
 
 .ops {
