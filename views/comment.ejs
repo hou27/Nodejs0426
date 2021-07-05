@@ -7,7 +7,7 @@
 				<h6 class="commentContents writer" style="font-size: small;">
 					<%=comments[i].writerName %>
 				</h6>
-				<h4 class="commentContents contents">
+				<h4 class="commentContents contents" data-comment-location='<%= i%>'>
 					<%=comments[i].contents %>
 				</h4>
 				<h6 class="commentContents created" style="font-size: x-small;">
@@ -20,9 +20,9 @@
 					<div class="dropdown-menu">
 						<% if (login_success) { %>
 						<button class="dropdown-item addNestedComment" type="button" 
-								name='<%= i %>' data-id='<%=comments[i]._id %>'>답글</button>
+								data-comment-location='<%= i %>' data-id='<%=comments[i]._id %>'>답글</button>
 						<button class="dropdown-item editComment" type="button" 
-								name='<%= i %>' data-id='<%=comments[i]._id %>'>수정</button>
+								data-comment-location='<%= i %>' data-id='<%=comments[i]._id %>'>수정</button>
 						<button class="dropdown-item deleteComment" type="button"
 								data-id='<%= posts._doc.comments[i]._id %>'>삭제</button>
 						<% } %>
@@ -41,13 +41,13 @@
 					<% nestedCommentLocation++; %>
 					<% for (var j = 0; j < nestedCommentLength; j++) { %>
 						<div class="nestedComment" id='<%=comments[i].nestedComments[j]._id %>'>
-							<h6 class="commentContents writer" style="font-size: small;">
+							<h6 class="nestedCommentContents writer" style="font-size: small;">
 								<%=comments[i].nestedComments[j].writerName %>
 							</h6>
-							<h4 class="commentContents contents">
+							<h4 class="nestedCommentContents contents">
 								<%=comments[i].nestedComments[j].contents %>
 							</h4>
-							<h6 class="commentContents created" style="font-size: x-small;">
+							<h6 class="nestedCommentContents created" style="font-size: x-small;">
 								<%=comments[i].nestedComments[j].created_at %>
 							</h6>
 						</div>

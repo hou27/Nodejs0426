@@ -119,7 +119,7 @@ $(document).on('click', '.deleteComment', (e) => {
 // 댓글 수정 기능
 $(document).on('click', '.editComment', (e) => {
 	console.log(e.target.dataset.id);
-	var i = e.target.name;
+	let i = e.target.dataset.commentLocation;
 	var commentId = e.target.dataset.id
 		, contents = $('.commentContents.contents')[i].innerText;
 	$.ajax({
@@ -131,10 +131,24 @@ $(document).on('click', '.editComment', (e) => {
 		//$(".commentContents.contents")[1].innerText
 		// Comment 영역 교체
 		$('.commentContents.contents')[i].innerHTML = results;
+		// 모든 수정 버튼 비활성화
+		$('.dropdown-item.editComment').attr("disabled", true);
 	}).fail( (xhr, textStatus, errThrown) => {
 		console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
 	});
 })
+
+$(document).keydown((e) => {
+	if($('#wrap_modifingCommentUI')[0] && (e.keyCode == 27 || e.which == 27 )) {
+		var returnVal = $('#wrap_modifingCommentUI')[0].children[0].value
+			, returnLocation = parseInt($('#wrap_modifingCommentUI')[0].parentElement.dataset.commentLocation);
+		
+		$('.commentContents.contents')[returnLocation].innerHTML = '';
+		$('.commentContents.contents')[returnLocation].innerText = returnVal;
+		$('.dropdown-item.editComment').attr("disabled", false);
+	}
+});
+
 
 // 댓글 수정 기능 (submit)
 $(document).on('click', '#modifyCommentBtn', (e) => {
@@ -163,7 +177,7 @@ $(document).on('click', '#modifyCommentBtn', (e) => {
 // 대댓글 추가 기능
 $(document).on('click', '.addNestedComment', (e) => {
 	console.log(e.target.dataset.id);
-	var i = e.target.name;
+	var i = e.target.dataset.commentLocation;
 	var commentId = e.target.dataset.id;
 	if($("#addNestedComment")[0]) {
 		let preLocation = parseInt($("#addNestedComment")[0].parentElement.dataset.commentLocation);

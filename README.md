@@ -197,7 +197,7 @@ $(document).on('click', '.deleteComment', (e) => {}) ::: after
 db.comments.update({'_id':ObjectId("60d3016937c602053211bb42")},{$pull:{nestedComments:{_id:ObjectId("60d49364b30cf515ca602908")}}})
 ```
 //종종 showpostprocess 진행 시 오류가 발생하는데 서버에서 받는 댓글의 값이 undefined로 오류 발생. 근데 다시 새로고침하면 잘 로드됨. 아직 원인 파악 못함.  
-//한번에 하나의 댓글만 수정 ui 띄울 수 있도록 해야함.  
+//한번에 하나의 댓글만 수정 ui 띄울 수 있도록 해야함.  --done.
 //대댓글을 펼치고 접을 수 있도록 해야함.  --done.  
 //시간 부족으로 대댓글 추가와 동시에 추가된 대댓글을 불러와 띄우는 기능을 마무리하지 못함.  --done.  
 
@@ -221,3 +221,4 @@ car.someNewProp = true // this will not work
 
 --07.05  
 * 대댓글 추가 양식 중복으로 띄워지지 않도록 처리함.  
+* 댓글 수정 양식 중복으로 띄워지지 않도록 처리함.  
