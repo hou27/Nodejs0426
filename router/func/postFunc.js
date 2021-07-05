@@ -1,5 +1,6 @@
 var path = require('path')
 	, utils = require('../../utils/utils')
+	, ejs = require('ejs')
 	, moment = require('moment');
 
 // 이미지처리용 multer setting
@@ -192,6 +193,7 @@ var showpostFunc = (req, res) => {
 
 					var chdkey = await chkey();
 					
+					//moment test --07.05
 					console.log(moment().format('YYYY-MM-DD hh:mm:ss'));
 
 					// 동기 과정을 통해 변환된 값들을 뷰 템플레이트를 통해 렌더링 후 전송
