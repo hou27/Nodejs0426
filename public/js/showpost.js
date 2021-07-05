@@ -165,6 +165,15 @@ $(document).on('click', '.addNestedComment', (e) => {
 	console.log(e.target.dataset.id);
 	var i = e.target.name;
 	var commentId = e.target.dataset.id;
+	if($("#addNestedComment")[0]) {
+		let preLocation = parseInt($("#addNestedComment")[0].parentElement.dataset.commentLocation);
+		if(preLocation == i) {
+			return 0;
+		}
+		else {
+			$("#addNestedComment")[0].remove();
+		}
+	}
 	$.ajax({
 		method : 'POST',
 		url : '/addNestedComment',

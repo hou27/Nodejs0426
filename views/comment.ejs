@@ -3,7 +3,7 @@
 	<div class="comment-list">
 		<% var nestedCommentLocation = 0 %>
 		<% for (var i = 0; i < posts._doc.comments.length; i++) { %>
-			<div class="comment" id='<%= posts._doc.comments[i]._id %>'>
+			<div class="comment" id='<%= posts._doc.comments[i]._id %>' data-comment-location='<%= i%>'>
 				<h6 class="commentContents writer" style="font-size: small;">
 					<%=comments[i].writerName %>
 				</h6>
