@@ -11,7 +11,7 @@
 					<%=comments[i].contents %>
 				</h4>
 				<h6 class="commentContents created" style="font-size: x-small;">
-					<%=comments[i].created_at %>
+					<%=mement(comments[i].created_at).format('YYYY-MM-DD hh:mm:ss') %>
 				</h6>
 				<div class="btn-group dropleft ops">
 					<button type="button" class="btn btn-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

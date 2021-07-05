@@ -1,8 +1,9 @@
 var path = require('path')
-	,utils = require('../../utils/utils');
+	, utils = require('../../utils/utils')
+	, moment = require('moment');
 
 // 이미지처리용 multer setting
-var multer = require('multer')
+var multer = require('multer');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -190,6 +191,8 @@ var showpostFunc = (req, res) => {
 				async function changevalues() {
 
 					var chdkey = await chkey();
+					
+					console.log(moment().format('YYYY-MM-DD hh:mm:ss'));
 
 					// 동기 과정을 통해 변환된 값들을 뷰 템플레이트를 통해 렌더링 후 전송
 					var context = {
@@ -199,7 +202,8 @@ var showpostFunc = (req, res) => {
 						arritem: ['nav-item', 'nav-item', 'nav-item active'],
 						login_success: true,
 						user: req.user,
-						message: req.flash()
+						message: req.flash(),
+						moment
 					};
 					
 					console.log('look at here ::: ',chdkey.getComment);
