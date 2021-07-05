@@ -201,7 +201,7 @@ var showpostFunc = (req, res) => {
 						user: req.user,
 						message: req.flash()
 					};
-					console.log("길이 ::: ", context.comments[0].nestedComments[0]);
+					
 					console.log('look at here ::: ',chdkey.getComment);
 
 					function cb(err, html) {
