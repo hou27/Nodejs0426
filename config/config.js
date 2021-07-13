@@ -9,6 +9,7 @@ module.exports = {
         {file:'./user_schema', collection:'users1', schemaName:'UserSchema', modelName:'UserModel'}
         ,{file:'./post_schema', collection:'posts', schemaName:'PostSchema', modelName:'PostModel'}
 		,{file:'./comment_schema', collection:'comments', schemaName:'CommentSchema', modelName:'CommentModel'}
+		,{file:'./layout_schema', collection:'layouts', schemaName:'LayoutSchema', modelName:'LayoutModel'}
 	],
 	route_info: [
 		// //{file:'./post', path:'/process/addpost', method:'addpost', type:'post'}

@@ -110,6 +110,10 @@ userPassport(router, passport);
 var chatRouter = require('./router/socket');
 chatRouter(app, router);
 
+// Layout 관련 라우터 -- 2021.07.11.
+var renderRouter = require('./routes/render');
+renderRouter(app, router, path);
+
 //favicon 요청 무시
 app.get('/favicon.ico', (req, res) => res.status(204));
 
