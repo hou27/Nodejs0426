@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link rel="stylesheet" href="/public/css/chat.css"/>
+    <title>My_page</title>
+  </head>
+  <body>
+    <%- include ("./nav.ejs") %>
+	
+	<div class="container mt-4">			
+						
+		<div class="page-header text-center">
+			<h1><span class="fa fa-book" id='my_info' data-id='<%=user._id %>'></span>내 LAYOUT</h1>
+		</div>
+		<br>
+		<div class="row">
+		<%let length = user.customedLayout.length;%>
+		<%for(var i = 0; i < length; i++) { %>
+			<div class="col-sm myLayouts" id='<%=myLayout[i]._id %>'>
+				<%=myLayout[i].layoutName %>
+			</div>
+		<% } %>	
+		</div>
+
+	</div>
+	<%- include ("./chatpage.ejs") %>  
+    <%- include ("./footer.ejs") %>
+	  
+	<script>
+		function search() {
+			var idinfo = $('#my_info')[0].dataset.id;
+			location.href = '/process/search?value=' + idinfo + '&ops=' + 'writer';
+		}
+		
+		$('.myLayouts').click( (e) => {
+			var layoutId = e.target.id;
+
+			location.href = '/process/showLayout/' + layoutId;
+		})
+	</script>
+  </body>
+</html>

@@ -238,3 +238,8 @@ config.js
 
 * 각 layout에 layoutName을 지정하여 db에 저장해야함.  
 * 사용자 별로 layout을 열람, 관리할 수 있는 페이지 및 기능이 필요함.  
+
+--07.13(연등)  
+* editor.js의 addWidget()을 수정하여 addEvents()로 세분화, 저장된 layout을 불러온 후에도 수정이 가능하도록 함.  
+* profile.ejs에서 내 layout 목록을 확인할 수 있도록 하였으며, 해당 layout으로 이동할 수 있도록 함.  
+* 기본적으로 layout 제작 후 저장과정은 모두 구현을 마쳤지만, 해당 layout을 불러옴에 있어서 문제가 발생함. 내일 해결해볼 예정.  

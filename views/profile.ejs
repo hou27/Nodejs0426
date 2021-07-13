@@ -57,7 +57,10 @@
 						</p>
 					<% } %>
 					<br>
-					<button type="button" class="btn btn-outline-primary mt-3" id='myPost' onclick='search();'>내가 쓴 글</button>
+					<span>
+						<button type="button" class="btn btn-outline-primary mt-3" id='myPost' onclick='search();'>내가 쓴 글</button>
+						<button type="button" class="btn btn-outline-primary mt-3" id='myLayout' onclick='location.href="/myLayout"'>내 Layout</button>
+					</span>
 					<br>
 					<button type="button" class="btn btn-outline-secondary mt-2" onclick="location.href='/'">Home</button>
 
@@ -75,6 +78,10 @@
 		function search() {
 			var idinfo = $('#my_info')[0].dataset.id;
 			location.href = '/process/search?value=' + idinfo + '&ops=' + 'writer';
+		}
+		
+		function viewLayout() {
+			
 		}
 	</script>
   </body>

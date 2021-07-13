@@ -19,4 +19,16 @@ module.exports = (app, router, path) => {
 		
 		funcs.processAddLayout(req, res);
 	});
+	
+	router.get('/myLayout', (req, res) => {
+		console.log("myLayout 요청됨.");
+		
+		funcs.myLayout(req, res);
+	});
+	
+	router.get('/process/showLayout/:id', (req, res) => {
+		console.log("processShowLayout 요청됨.");
+		
+		funcs.processShowLayout(req, res);
+	});
 };

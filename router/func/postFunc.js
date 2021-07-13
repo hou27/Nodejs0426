@@ -1,6 +1,6 @@
 var path = require('path')
 	, utils = require('../../utils/utils')
-	, ejs = require('ejs')
+	//, ejs = require('ejs')
 	, moment = require('moment');
 
 // 이미지처리용 multer setting

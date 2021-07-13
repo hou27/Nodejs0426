@@ -1,3 +1,6 @@
+var path = require('path')
+	, utils = require('../../utils/utils')
+
 exports.addLayout = (req, res) => {
 	console.log("addLayout in renderFunc 요청됨.");
 	
@@ -20,7 +23,8 @@ exports.processAddLayout = (req, res) => {
 	//     	style: ""
 	//     }];
 	
-	let layout = req.body.layout;
+	let layout = req.body.layout
+		,layoutName = req.body.layoutName;
 	// if(req.body.content.style) {	// style은 한줄의 문자열로 가공하여 한방에 추가한다고 가정함.
 	// 	layout.style = req.body.content.style;
 	// }
@@ -32,6 +36,7 @@ exports.processAddLayout = (req, res) => {
 
 		var layoutContents = new database.LayoutModel({
 			userId,	// 유저와 연결해야하므로 필요
+			layoutName,
 			layout,				// layout 정보
 			login_success: true,	// 그냥 혹시나 해서 추가한 두 항목 나중에 진행하면서 필요없으면 뺄 예정
 			message: req.flash()	// 
@@ -64,6 +69,122 @@ exports.processAddLayout = (req, res) => {
 		});
 
 	} else {
+		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+		res.write('<h2>데이터베이스 연결 실패</h2>');
+		res.end();
+	}
+}
+
+exports.myLayout = (req, res) => {
+	console.log("myLayout in renderFunc 요청됨.");
+	if(req.isAuthenticated()){
+		var database = req.app.get('database');
+		var layoutLength = req.user.customedLayout.length;
+		
+		
+		// 데이터베이스 객체가 초기화된 경우
+		if (database.db) {
+
+			async function getLayouts(chdkey, i) {
+				await database.LayoutModel.findById(req.user.customedLayout[i].layout, (err, layout) => {
+					chdkey.layouts.push(layout);
+					console.log("해당 layout : ",chdkey.layouts[i]);
+				});
+
+			}
+
+			//작성 시간, 작성자 값 재설정
+			async function chkey() {
+				
+				var chdkey = {
+					layouts: []
+				}
+
+
+				console.log(layoutLength);
+				for (var i = 0; i < layoutLength; i++) {
+					await getLayouts(chdkey, i);
+				}
+				return chdkey;
+			}
+			async function getMyLayouts() {
+				let chdkey = await chkey();
+
+				var context = {
+						user: req.user,
+						myLayout: chdkey.layouts,
+						login_success: true,
+						arritem: utils.navactive(req.path),
+						message: req.flash()
+					};
+				console.log(chdkey.layouts);
+				res.render('myLayout.ejs', context, (err, results) => {
+					if (err) {
+						console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+
+						res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+						res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
+						res.write('<p>' + err.stack + '</p>');
+						res.end();
+
+						return;
+					}
+					else
+						res.send(results);
+				});
+			}
+
+			getMyLayouts();
+			
+		} else {
+			res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+			res.write('<h2>데이터베이스 연결 실패</h2>');
+			res.end();
+		}
+		
+
+		
+	}else{
+		return res.redirect('/login'); 
+	}
+}
+
+exports.processShowLayout = (req, res) => {
+	// URL 파라미터로 전달됨
+	var paramId = req.body.id || req.query.id || req.params.id;
+
+	console.log('요청 파라미터 : ' + paramId);
+
+	// html-entities module is required in showpost.ejs
+	//var Entities = require('html-entities').AllHtmlEntities;
+
+	var database = req.app.get('database');
+
+	// 데이터베이스 객체가 초기화된 경우
+	if (database.db) {
+		// 1. 글 리스트
+		database.LayoutModel.findById(paramId, (err, results) => {
+			if (err) {
+				console.error('게시판 글 조회 중 에러 발생 : ' + err.stack);
+
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>게시판 글 조회 중 에러 발생</h2>');
+				res.write('<p>' + err.stack + '</p>');
+				res.end();
+
+				return;
+			}
+			console.log('check this value ::: ',results);
+			if (results) {
+				res.render('secondeditor.ejs', {message: req.flash('loginMessage'), layoutInfo: results});
+			} else {
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>레이아웃 조회  실패</h2>');
+				res.end();
+			}
+		});
+	}
+	else {
 		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 		res.write('<h2>데이터베이스 연결 실패</h2>');
 		res.end();

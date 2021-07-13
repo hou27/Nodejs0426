@@ -69,6 +69,26 @@ function removeElement(){//사실 안정성을 위해 이렇게 ButtonId를 쓰�
 	}
 }
 
+function addEvents(button) {
+	
+	button.onmousedown=function(event){
+		startDrag(event,button);
+	}
+
+	button.onclick=function(){//추후 더블 클릭 등으로 변경할 수 있음
+		var showWhatisSelected=document.getElementById("selectedButton");
+		var thisButton=button.innerText;
+
+		ButtonId=button.id;//사이즈를 변환하는 버튼.
+		showWhatisSelected.innerHTML=thisButton+"선택됨"+"(id: "+ButtonId+")";
+		// var id='Detail'+ButtonId;
+		// console.log(typeof id)
+		// var widgetInList=document.getElementById(id);
+		button.style.color='red';
+
+	}
+}
+
 function addWidget(idNumber){
 
 	var widgetbox=document.getElementById("widgetbox");
@@ -80,6 +100,7 @@ function addWidget(idNumber){
 	var newButton=document.createElement("button");
 	newButton.id='W'+i;
 	i++;
+	newButton.className = 'customWidget';
 
 
 	// monitor2.innerHTML="position"+widgetbox.style.position;
@@ -88,27 +109,7 @@ function addWidget(idNumber){
 	newButton.style.left=0;
 	newButton.style.top=0;
 
-	newButton.onmousedown=function(event){
-		startDrag(event,newButton);
-	}
-
-	newButton.onclick=function(){//추후 더블 클릭 등으로 변경할 수 있음
-		var showWhatisSelected=document.getElementById("selectedButton");
-		var thisButton=newButton.innerText;
-
-		ButtonId=newButton.id;//사이즈를 변환하는 버튼.
-		showWhatisSelected.innerHTML=thisButton+"선택됨"+"(id: "+ButtonId+")";
-		var id='Detail'+ButtonId;
-		var widgetInList=document.getElementById(id);
-		widgetInList.style.color='red';
-
-	}
-
-	var newText=document.createTextNode(idNumberToString);
-	widgetbox.appendChild(newButton);
-	newButton.appendChild(newText);
-
-	if(newButton.innerText=='게시판'||newButton.innerText=='알림'){
+	function setWidgetBtn() {
 
 		var list = document.getElementById("listForDetail");
 		var newDetailButton=document.createElement("button");
@@ -143,37 +144,58 @@ function addWidget(idNumber){
 
 	}
 	
-	if(newButton.innerText=='이미지 박스'){//미리보기화면 만들어야함
+	function setWidgetImagebox() {//미리보기화면 만들어야함
 
-	var newInputTag= document.createElement('form');
-	newInputTag.enctype="multipart/form-data";
-	newInputTag.action="#"//벡엔드 처리 추후 업로드시 이미지도 일괄 업로드하는 코드 작성
-	newInputTag.method="post";
-	var newFile= document.createElement('input');
-	var te=document.createTextNode("이미지박스");
-	newFile.type="file";
+		var newInputTag= document.createElement('form');
+		newInputTag.enctype="multipart/form-data";
+		newInputTag.action="#"//벡엔드 처리 추후 업로드시 이미지도 일괄 업로드하는 코드 작성
+		newInputTag.method="post";
+		var newFile= document.createElement('input');
+		var te=document.createTextNode("이미지박스");
+		newFile.type="file";
 
-	var sen=newFile.id;
-	var monitor1=document.getElementById("monitor1");
-	// monitor1.innerText=newFile.id;
+		var sen=newFile.id;
+		var monitor1=document.getElementById("monitor1");
+		// monitor1.innerText=newFile.id;
 
-	newButton.appendChild(newInputTag);
-	newInputTag.appendChild(newFile);
+		newButton.appendChild(newInputTag);
+		newInputTag.appendChild(newFile);
 
-	newFile.onchange = function(e) {
-		var fileReader = new FileReader();
-		fileReader.readAsDataURL(e.target.files[0]);
-		fileReader.onload = function(e) { 
-			//document.getElementById('thumnail').src = e.target.result;
-			var imgtag=document.createElement('img');
-			imgtag.style.width='200px';
-			imgtag.id="imgtag"+i;
-			newButton.appendChild(imgtag);
+		newFile.onchange = function(e) {
+			var fileReader = new FileReader();
+			fileReader.readAsDataURL(e.target.files[0]);
+			fileReader.onload = function(e) { 
+				//document.getElementById('thumnail').src = e.target.result;
+				var imgtag=document.createElement('img');
+				imgtag.style.width='200px';
+				imgtag.id="imgtag"+i;
+				newButton.appendChild(imgtag);
 
-			document.getElementById(imgtag.id).src = e.target.result;
-			}
+				document.getElementById(imgtag.id).src = e.target.result;
+				}
+		}
 	}
+
+	var newText=document.createTextNode(idNumberToString);
+	widgetbox.appendChild(newButton);
+	newButton.appendChild(newText);
+
+	let widgetTextVal = newButton.innerText;
+	console.log(widgetTextVal)
+	switch (widgetTextVal) {
+		case '게시판':
+		case '알림':
+			setWidgetBtn();
+			break;
+		case '이미지 박스':
+			
+			setWidgetImagebox();
+			break;
+		default:
+			break;
 	}
+	
+	addEvents(newButton);
 }
 //묶음 상자는 여러 위젯들을 일렬로 정렬하도록 지원하는 도구. 이 안에 다른 위젯을 배치할 것임
 
@@ -210,12 +232,20 @@ $rgb_input.bind(
 	}
 )
 
+// widget에 event를 추가하기 위한 리스너
+$(document).on('click', '.customWidget', (e) => {
+	addEvents(e.target);
+})
+
+
+// layout을 저장하는 함수
 function saveLayout() {
-	let layout = $("#widgetbox")[0].innerHTML;
+	let layout = $("#widgetbox")[0].innerHTML
+		,layoutName = $('#layoutNameSection')[0].value;
 	$.ajax({
 		method: "POST",
 		url: "/process/addLayout",
-		data: {layout: layout},
+		data: {layout, layoutName},
 		dataType: "text"
 	}).done( (results) => {
 		console.log('layout added');
