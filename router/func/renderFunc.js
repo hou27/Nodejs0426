@@ -1,3 +1,13 @@
+exports.addLayout = (req, res) => {
+	console.log("addLayout in renderFunc 요청됨.");
+	
+	if(req.isAuthenticated()){
+		res.render('secondeditor.ejs', {message: req.flash('loginMessage')});
+	}else{
+		return res.redirect('/login'); 
+	}
+}
+
 exports.processAddLayout = (req, res) => {
 	console.log("processAddLayout in renderFunc 요청됨.");
 	
@@ -11,8 +21,6 @@ exports.processAddLayout = (req, res) => {
 	//     }];
 	
 	let layout = req.body.layout;
-	console.log("??? ", req.body);
-	console.log(layout);
 	// if(req.body.content.style) {	// style은 한줄의 문자열로 가공하여 한방에 추가한다고 가정함.
 	// 	layout.style = req.body.content.style;
 	// }

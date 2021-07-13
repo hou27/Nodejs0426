@@ -212,13 +212,13 @@ $rgb_input.bind(
 
 function saveLayout() {
 	let layout = $("#widgetbox")[0].innerHTML;
-	alert(layout);
 	$.ajax({
 		method: "POST",
 		url: "/process/addLayout",
 		data: {layout: layout}
 	}).done( (results) => {
 		console.log('layout added');
+		//$("#widgetbox")[0].innerHTML = results;
 		alert('저장되었습니다.');
 	}).fail( (xhr, textStatus, errThrown) => {
 		console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);

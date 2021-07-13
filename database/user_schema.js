@@ -26,6 +26,9 @@ Schema.createSchema = (mongoose) => {
 	    , github: {}
 	    , google: {}
 	    , linkedin: {}
+		, customedLayout: [{	// customed layout	-- 2021.07.11.
+			layout: {type: mongoose.Schema.ObjectId, ref: 'layouts'}
+		}],
 	});
 	
 	// password를 virtual 메소드로 정의 : MongoDB에 저장되지 않는 편리한 속성임. 특정 속성을 지정하고 set, get 메소드를 정의함
