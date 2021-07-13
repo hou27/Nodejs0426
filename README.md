@@ -223,4 +223,18 @@ car.someNewProp = true // this will not work
 * 대댓글 추가 양식 중복으로 띄워지지 않도록 처리함.  
 * 댓글 수정 양식 중복으로 띄워지지 않도록 처리함.  
 
-//moment를 이용하여 댓글에 표시되는 시간 정보 다듬기(moment 모듈을 ejs 파일로 넘기는 법 알아내기) --done. 오타때문에 헤맸음... 
+//moment를 이용하여 댓글에 표시되는 시간 정보 다듬기(moment 모듈을 ejs 파일로 넘기는 법 알아내기) --done. 오타때문에 헤맸음...  
+
+--07.13  
+```
+render.js
+renderFunc.js
+layout_schema.js
+user_schema.js
+app.js
+config.js
+```
+위 파일들 생성/수정하여 ap-page project의 기능 테스트함.
+
+* 각 layout에 layoutName을 지정하여 db에 저장해야함.  
+* 사용자 별로 layout을 열람, 관리할 수 있는 페이지 및 기능이 필요함.  

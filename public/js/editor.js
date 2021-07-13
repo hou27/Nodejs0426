@@ -215,7 +215,8 @@ function saveLayout() {
 	$.ajax({
 		method: "POST",
 		url: "/process/addLayout",
-		data: {layout: layout}
+		data: {layout: layout},
+		dataType: "text"
 	}).done( (results) => {
 		console.log('layout added');
 		//$("#widgetbox")[0].innerHTML = results;

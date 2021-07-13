@@ -57,6 +57,8 @@ exports.processAddLayout = (req, res) => {
 			(err, results) => {
 				console.log('레이아웃 추가 성공.');
 				res.send(result.layout);
+				//res.redirect('/secondeditor.ejs'); 
+				//res.status(200).send({ message : 'save 성공' });
 				//res.send("<script>alert('저장되었습니다.');</script>");
 			});
 		});

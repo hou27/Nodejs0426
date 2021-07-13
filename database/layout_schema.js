@@ -9,8 +9,9 @@ var LayoutSchema = {};
 LayoutSchema.createSchema = (mongoose) => {
 	// 댓글 스키마 정의
 	var LayoutSchema = mongoose.Schema({
-	    userId: {type: mongoose.Schema.ObjectId, ref: 'users1'},
-		layout: {type: String, trim:true, 'default': ''},
+	    userId: {type: mongoose.Schema.ObjectId, required: true, ref: 'users1'},
+		layoutName: {type: String, required: true, trim:true, 'default': ''},
+		layout: {type: String, required: true, trim:true, 'default': ''},
 			// layout: [{	// 요소
 			// positionLeft: {type: String, required: true, trim:true, 'default': ''},
 			// positionTop: {type: String, required: true, trim:true, 'default': ''},
