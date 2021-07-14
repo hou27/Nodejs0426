@@ -4,8 +4,16 @@ var path = require('path')
 exports.addLayout = (req, res) => {
 	console.log("addLayout in renderFunc 요청됨.");
 	
+	var context = {
+			user: req.user,
+			login_success: true,
+			layoutInfo: false,
+			arritem: utils.navactive(req.path),
+			message: req.flash()
+		};
+	
 	if(req.isAuthenticated()){
-		res.render('secondeditor.ejs', {message: req.flash('loginMessage'), layoutInfo: false}, (err, results) => {
+		res.render('secondeditor.ejs', context, (err, results) => {
 			if (err) {
 				console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
 
@@ -219,10 +227,19 @@ exports.processShowLayout = (req, res) => {
 			}
 			console.log('check this value ::: ',results);
 			if (results) {
-				res.render('secondeditor.ejs', {message: req.flash('loginMessage'), layoutInfo: results});
+				
+				var context = {
+					user: req.user,
+					login_success: true,
+					layoutInfo: results,
+					arritem: utils.navactive(req.path),
+					message: req.flash()
+				};
+				
+				res.render('secondeditor.ejs', context);
 			} else {
 				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h2>레이아웃 조회  실패</h2>');
+				res.write('<h2>레이아웃 조회 실패</h2>');
 				res.end();
 			}
 		});
