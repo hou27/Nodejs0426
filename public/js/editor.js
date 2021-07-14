@@ -240,40 +240,56 @@ $(document).on('click', '.customWidget', (e) => {
 
 // layout을 저장하는 함수
 function saveLayout() {
-	let layout = $("#widgetbox")[0].innerHTML
-		,layoutName = $('#layoutNameSection')[0].value;
-	$.ajax({
-		method: "POST",
-		url: "/process/addLayout",
-		data: {layout, layoutName},
-		dataType: "text"
-	}).done( (results) => {
-		console.log('layout added');
-		//$("#widgetbox")[0].innerHTML = results;
-		alert('저장되었습니다.');
-	}).fail( (xhr, textStatus, errThrown) => {
-		console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
-	});
+	if($(".saveOreditbutton").val().length > 0) {
+		let layout = $("#widgetbox")[0].innerHTML
+			,layoutName = $('#layoutNameSection')[0].value;
+		$.ajax({
+			method: "POST",
+			url: "/process/addLayout",
+			data: {layout, layoutName},
+			dataType: "text"
+		}).done( (results) => {
+			console.log('layout added');
+			//$("#widgetbox")[0].innerHTML = results;
+			alert('저장되었습니다.');
+		}).fail( (xhr, textStatus, errThrown) => {
+			console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+		});
+	}
+	else {
+		alert('title을 입력해주세요!!');
+	}
 }
-layoutIdSection
 // layout을 수정하는 함수
 function editLayout() {
-	let layout = $("#widgetbox")[0].innerHTML
-		,layoutId = $('#layoutIdSection')[0].value
-		,layoutName = $('#layoutNameSection')[0].value;
-	$.ajax({
-		method: "POST",
-		url: "/process/editLayout",
-		data: {layout, layoutId, layoutName},
-		dataType: "text"
-	}).done( (results) => {
-		console.log('layout modified');
-		alert('수정되었습니다.');
-	}).fail( (xhr, textStatus, errThrown) => {
-		console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
-	});
+	if($(".saveOreditbutton").val().length > 0) {
+		let layout = $("#widgetbox")[0].innerHTML
+			,layoutId = $('#layoutIdSection')[0].value
+			,layoutName = $('#layoutNameSection')[0].value;
+		$.ajax({
+			method: "POST",
+			url: "/process/editLayout",
+			data: {layout, layoutId, layoutName},
+			dataType: "text"
+		}).done( (results) => {
+			console.log('layout modified');
+			alert('수정되었습니다.');
+		}).fail( (xhr, textStatus, errThrown) => {
+			console.log("서버에서 보내온 오류 정보 : ", xhr, textStatus, errThrown);
+		});
+	}
+	else {
+		alert('title을 입력해주세요!!');
+	}
 }
 
 window.onload = () => {
 	$("#widgetbox")[0].innerHTML = $("#widgetbox")[0].innerText;
 }
+
+//title 입력 후에 저장버튼 활성화 -- 기능고장!!
+// $("#layoutNameSection").on("input", () => {
+// 	var flag = true;
+// 	flag = $(".saveOreditbutton").val().length > 0 ? false : true;
+// 	$(".saveOreditbutton").attr("disabled", flag);
+// });
