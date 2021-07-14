@@ -243,3 +243,11 @@ config.js
 * editor.js의 addWidget()을 수정하여 addEvents()로 세분화, 저장된 layout을 불러온 후에도 수정이 가능하도록 함.  
 * profile.ejs에서 내 layout 목록을 확인할 수 있도록 하였으며, 해당 layout으로 이동할 수 있도록 함.  
 * 기본적으로 layout 제작 후 저장과정은 모두 구현을 마쳤지만, 해당 layout을 불러옴에 있어서 문제가 발생함. 내일 해결해볼 예정.  
+
+```
+db.users1.update({'_id':ObjectId("60a88a762bb913020bd8c96f")},{$pull:{customedLayout:{_id:ObjectId("60eeb0f751e31104092a635c")}}})
+```
+
+--07.14  
+* layout 불러오기 구현 완료.  
+* layout 수정 기능 구현 완료.  

@@ -5,7 +5,20 @@ exports.addLayout = (req, res) => {
 	console.log("addLayout in renderFunc 요청됨.");
 	
 	if(req.isAuthenticated()){
-		res.render('secondeditor.ejs', {message: req.flash('loginMessage')});
+		res.render('secondeditor.ejs', {message: req.flash('loginMessage'), layoutInfo: false}, (err, results) => {
+			if (err) {
+				console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
+				res.write('<p>' + err.stack + '</p>');
+				res.end();
+
+				return;
+			}
+			else
+				res.send(results);
+		});
 	}else{
 		return res.redirect('/login'); 
 	}
@@ -62,12 +75,42 @@ exports.processAddLayout = (req, res) => {
 			(err, results) => {
 				console.log('레이아웃 추가 성공.');
 				res.send(result.layout);
-				//res.redirect('/secondeditor.ejs'); 
-				//res.status(200).send({ message : 'save 성공' });
-				//res.send("<script>alert('저장되었습니다.');</script>");
 			});
 		});
 
+	} else {
+		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+		res.write('<h2>데이터베이스 연결 실패</h2>');
+		res.end();
+	}
+}
+
+exports.processEditLayout = (req, res) => {
+	console.log("processEditLayout in renderFunc 요청됨.");
+	
+	const userId = req.user
+	
+	let layout = req.body.layout
+		,layoutId = req.body.layoutId
+		,layoutName = req.body.layoutName;
+
+	var database = req.app.get('database');
+
+	if (database.db) {
+		database.LayoutModel.findOneAndUpdate({_id : layoutId},
+			{$set:{layoutName, layout, updated_at: new Date()}}, (err, results) => {
+			if (err) {
+				console.error('수정 중 에러 발생 : ' + err.stack);
+				res.status(500);
+				throw err;
+			}
+
+			if (results) {
+				console.log('레이아웃 수정 완료', results);
+				res.status(200);
+				res.send(results);
+			}
+		})
 	} else {
 		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 		res.write('<h2>데이터베이스 연결 실패</h2>');

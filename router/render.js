@@ -20,6 +20,12 @@ module.exports = (app, router, path) => {
 		funcs.processAddLayout(req, res);
 	});
 	
+	router.post('/process/editLayout', (req, res) => {
+		console.log("processEditLayout 요청됨.");
+		
+		funcs.processEditLayout(req, res);
+	});
+	
 	router.get('/myLayout', (req, res) => {
 		console.log("myLayout 요청됨.");
 		
