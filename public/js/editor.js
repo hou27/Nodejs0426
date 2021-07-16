@@ -214,7 +214,7 @@ $(document).on('click', '.customWidget', (e) => {
 
 // layout을 저장하는 함수
 function saveLayout() {
-	if($(".saveOreditbutton").val().length > 0) {
+	if($("#layoutNameSection")[0].value.length > 0) {
 		let layout = $("#widgetbox")[0].innerHTML
 			,layoutName = $('#layoutNameSection')[0].value;
 		$.ajax({
@@ -236,7 +236,7 @@ function saveLayout() {
 }
 // layout을 수정하는 함수
 function editLayout() {
-	if($(".saveOreditbutton").val().length > 0) {
+	if($("#layoutNameSection")[0].value.length > 0) {
 		let layout = $("#widgetbox")[0].innerHTML
 			,layoutId = $('#layoutIdSection')[0].value
 			,layoutName = $('#layoutNameSection')[0].value;

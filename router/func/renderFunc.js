@@ -131,7 +131,7 @@ exports.myLayout = (req, res) => {
 	if(req.isAuthenticated()){
 		var database = req.app.get('database');
 		var layoutLength = req.user.customedLayout.length;
-		
+		console.log('why not ::: ',req.user)
 		
 		// 데이터베이스 객체가 초기화된 경우
 		if (database.db) {
