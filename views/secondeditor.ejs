@@ -40,7 +40,6 @@
 		
 		<div class="container mt-4 delsec" style='max-width:100%'>
 			<div class='wrap_layoutNameSection'>
-				<!--<input class="layoutNameSection" value=''>-->
 				<%if(layoutInfo) { %>
 					<input id="layoutNameSection" value='<%=layoutInfo.layoutName %>'>
 					<input id="layoutIdSection" type='hidden' value='<%=layoutInfo._id %>'>
@@ -82,13 +81,13 @@
 							<% } %>
 
 							<div  class="box2" style="float: right;" >
-								<button class="btn btn-default" id="1" style="width: 80px;"  onclick="addWidget('게시판')">게시판</button>
-								<button class="btn btn-default" id="2" style="width: 80px; " onclick="addWidget('소 게시판')">소 게시판</button>
-								<button class="btn btn-default" id="3" style="width: 80px; " onclick="addWidget('공지사항')">공지사항</button>
-								<button class="btn btn-default" id="4" style="width: 80px; " onclick="addWidget('알림')">알림</button>
-								<button class="btn btn-default" id="5" style="width: 80px; " onclick="addWidget('이미지 박스')">이미지 박스</button>
-								<button class="btn btn-default" id="6" style="width: 80px; " onclick="addWidget('텍스트 박스')">텍스트 박스</button>
-								<button class="btn btn-default" id="6" style="width: 80px; " onclick="addWidget('묶음 박스')">묶음 박스</button>
+								<button class="btn btn-default" id="1" style="width: 80px;"  onclick="addWidget(this)">게시판</button>
+								<button class="btn btn-default" id="2" style="width: 80px; " onclick="addWidget(this)">소 게시판</button>
+								<button class="btn btn-default" id="3" style="width: 80px; " onclick="addWidget(this)">공지사항</button>
+								<button class="btn btn-default" id="4" style="width: 80px; " onclick="addWidget(this)">알림</button>
+								<button class="btn btn-default" id="5" style="width: 80px; " onclick="addWidget(this)">이미지 박스</button>
+								<button class="btn btn-default" id="6" style="width: 80px; " onclick="addWidget(this)">텍스트 박스</button>
+								<button class="btn btn-default" id="6" style="width: 80px; " onclick="addWidget(this)">묶음 박스</button>
 							</div>
 						</div>
 					</div>

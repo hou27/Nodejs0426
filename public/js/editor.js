@@ -89,28 +89,20 @@ function addEvents(button) {
 	}
 }
 
-function addWidget(idNumber){
-
-	var widgetbox=document.getElementById("widgetbox");
-	// var box2=document.getElementById("box2");
-	// var detailWidgetBox=widgetbox;
-	// detailWidgetBox.id="detailWidgetBox";
-	var idNumberToString=idNumber+"";
-	var selectedWidget=document.getElementById(idNumberToString);
-	var newButton=document.createElement("button");
+function addWidget(btnVal){
+	var widgetbox=document.getElementById("widgetbox")
+		,widgetTextVal=btnVal.innerText
+		,newButton=document.createElement("button");
+	
 	newButton.id='W'+i;
 	i++;
+	
 	newButton.className = 'customWidget';
-
-
-	// monitor2.innerHTML="position"+widgetbox.style.position;
-
 	newButton.style.position="absolute";
 	newButton.style.left=0;
 	newButton.style.top=0;
 
 	function setWidgetBtn() {
-
 		var list = document.getElementById("listForDetail");
 		var newDetailButton=document.createElement("button");
 		newDetailButton.id='Detail'+newButton.id;
@@ -118,25 +110,10 @@ function addWidget(idNumber){
 		var newDetailText=document.createTextNode(string);
 		j++;
 		
-			// var window;
-		
-			// function send(){
-			// 	win.document.getElementById("title").value="게시판 수정";
-			// }	
-		
-			// function openwin(callback){
-			
-			// 	win=open("/process/detail","new page");
-			// 	window=win;
-			// 	callback();
-			
-			// }
 		newDetailButton.onclick=function(){
-			// javascript:window.location='/process/detail';
 			win=open("/process/detail","new page");
 
 			win.document.getElementById("title").innerText="게시판 수정";
-			//openwin(send);
 		}
 		
 		list.appendChild(newDetailButton);
@@ -156,7 +133,6 @@ function addWidget(idNumber){
 
 		var sen=newFile.id;
 		var monitor1=document.getElementById("monitor1");
-		// monitor1.innerText=newFile.id;
 
 		newButton.appendChild(newInputTag);
 		newInputTag.appendChild(newFile);
@@ -164,7 +140,7 @@ function addWidget(idNumber){
 		newFile.onchange = function(e) {
 			var fileReader = new FileReader();
 			fileReader.readAsDataURL(e.target.files[0]);
-			fileReader.onload = function(e) { 
+			fileReader.onload = function(e) {
 				//document.getElementById('thumnail').src = e.target.result;
 				var imgtag=document.createElement('img');
 				imgtag.style.width='200px';
@@ -172,16 +148,14 @@ function addWidget(idNumber){
 				newButton.appendChild(imgtag);
 
 				document.getElementById(imgtag.id).src = e.target.result;
-				}
+			}
 		}
 	}
 
-	var newText=document.createTextNode(idNumberToString);
+	var newText=document.createTextNode(widgetTextVal);
 	widgetbox.appendChild(newButton);
 	newButton.appendChild(newText);
 
-	let widgetTextVal = newButton.innerText;
-	console.log(widgetTextVal)
 	switch (widgetTextVal) {
 		case '게시판':
 		case '알림':
@@ -293,3 +267,7 @@ window.onload = () => {
 // 	flag = $(".saveOreditbutton").val().length > 0 ? false : true;
 // 	$(".saveOreditbutton").attr("disabled", flag);
 // });
+
+function test(value) {
+	console.log(value.innerText);
+}
