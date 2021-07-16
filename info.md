@@ -255,3 +255,5 @@ db.users1.update({'_id':ObjectId("60a88a762bb913020bd8c96f")},{$pull:{customedLa
 
 --07.16  
 * layout save func 오류 수정 완료.  
+
+//수정작업 시 게시판 등의 페이지로 넘어가는 작업이 현재 불가. 수정해야함.  
