@@ -252,3 +252,6 @@ db.users1.update({'_id':ObjectId("60a88a762bb913020bd8c96f")},{$pull:{customedLa
 * layout 불러오기 구현 완료.  
 * layout 수정 기능 구현 완료.  
 * layout 수정 or 저장 시 title 미입력 감지되면 post요청 막도록 함.  
+
+--07.16  
+* layout save func 오류 수정 완료.  
