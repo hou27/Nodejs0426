@@ -260,14 +260,3 @@ function editLayout() {
 window.onload = () => {
 	$("#widgetbox")[0].innerHTML = $("#widgetbox")[0].innerText;
 }
-
-//title 입력 후에 저장버튼 활성화 -- 기능고장!!
-// $("#layoutNameSection").on("input", () => {
-// 	var flag = true;
-// 	flag = $(".saveOreditbutton").val().length > 0 ? false : true;
-// 	$(".saveOreditbutton").attr("disabled", flag);
-// });
-
-function test(value) {
-	console.log(value.innerText);
-}
