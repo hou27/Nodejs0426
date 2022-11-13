@@ -35,7 +35,7 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "session-file-store": "^1.5.0",
-    "socket.io": "^4.1.2",
+    "socket.io": "^4.5.3",
     "yarn": "^1.22.10"
   }
 }
